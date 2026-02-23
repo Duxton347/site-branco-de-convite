@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #889778;
+  --color-primary-dark: #6a7a5b;
+  --color-background-light: #F6F1E8;
+  --color-background-dark: #191a18;
+  --color-paper: #ffffff;
+
+  --font-display: "Newsreader", serif;
+  --font-sans: "Newsreader", serif;
+  --font-script: "Great Vibes", cursive;
+  
+  --animate-fade-in: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.torn-paper-top {
+  clip-path: polygon(0% 10px, 5% 0px, 10% 12px, 15% 2px, 20% 10px, 25% 0px, 30% 12px, 35% 2px, 40% 12px, 45% 0px, 50% 12px, 55% 2px, 60% 12px, 65% 0px, 70% 12px, 75% 2px, 80% 12px, 85% 0px, 90% 12px, 95% 2px, 100% 10px, 100% 100%, 0% 100%);
+}
+
+.torn-paper-bottom {
+  clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 10px), 95% 100%, 90% calc(100% - 12px), 85% 100%, 80% calc(100% - 12px), 75% 100%, 70% calc(100% - 12px), 65% 100%, 60% calc(100% - 12px), 55% 100%, 50% calc(100% - 12px), 45% 100%, 40% calc(100% - 12px), 35% 100%, 30% calc(100% - 12px), 25% 100%, 20% calc(100% - 12px), 15% 100%, 10% calc(100% - 12px), 5% 100%, 0% calc(100% - 10px));
+}
