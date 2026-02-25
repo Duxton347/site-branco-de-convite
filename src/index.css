@@ -1,17 +1,44 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #889778;
-  --color-primary-dark: #6a7a5b;
+  --color-primary: #859778;
+  --color-primary-dark: #6F8264;
+  --color-primary-light: #A3B198;
+  --color-gold: #E0C58E;
   --color-background-light: #F6F1E8;
-  --color-background-dark: #191a18;
-  --color-paper: #ffffff;
+  --color-background-dark: #2A2A2A;
+  --color-paper: #FFFDF6;
+  --color-text-dark: #4A4A4A;
 
-  --font-display: "Newsreader", serif;
-  --font-sans: "Newsreader", serif;
-  --font-script: "Great Vibes", cursive;
-  
+  --font-display: "Spectral", serif;
+  --font-sans: "Inter", "Manrope", sans-serif;
+  --font-script: "Pinyon Script", cursive;
+
   --animate-fade-in: fadeIn 1s ease-in-out forwards;
+}
+
+@layer utilities {
+  .luxury-card {
+    border: 1px solid rgba(224, 197, 142, 0.4);
+    position: relative;
+    padding: 2px;
+  }
+
+  .luxury-card::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 0.5px solid rgba(224, 197, 142, 0.3);
+    pointer-events: none;
+  }
+
+  .victorian-border {
+    position: absolute;
+    inset: 16px;
+    border: 1px solid rgba(224, 197, 142, 0.5);
+    pointer-events: none;
+    z-index: 5;
+  }
 }
 
 @keyframes fadeIn {
