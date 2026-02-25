@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #859778;
+  --color-primary-dark: #6F8264;
+  --color-primary-light: #A3B198;
+  --color-gold: #E0C58E;
+  --color-background-light: #F6F4EE;
+  --color-background-dark: #2A2A2A;
+  --color-paper: #FFFDF6;
+  --color-text-dark: #4A4A4A;
+
+  --font-display: "Spectral", serif;
+  --font-sans: "Inter", "Manrope", sans-serif;
+  --font-script: "Pinyon Script", cursive;
+
+  --animate-fade-in: fadeIn 1s ease-in-out forwards;
+}
+
+@layer utilities {
+  .luxury-card {
+    border: 1px solid rgba(224, 197, 142, 0.4);
+    position: relative;
+    padding: 2px;
+  }
+
+  .luxury-card::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 0.5px solid rgba(224, 197, 142, 0.3);
+    pointer-events: none;
+  }
+
+  .victorian-border {
+    position: absolute;
+    inset: 16px;
+    border: 1px solid rgba(224, 197, 142, 0.5);
+    pointer-events: none;
+    z-index: 5;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Envelope Animations */
+.envelope-base,
+.envelope-seal,
+.envelope-flap-side {
+  transition: opacity 0.5s ease-out;
+}
+
+.is-opening .envelope-base,
+.is-opening .envelope-seal,
+.is-opening .envelope-flap-side {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.envelope-flap-top {
+  transition: transform 1.3s ease-in-out 0.5s;
+  transform: translateY(0);
+}
+
+.is-opening .envelope-flap-top {
+  transform: translateY(-100%);
+}
+
+.envelope-flap-bottom {
+  transition: transform 1.3s ease-in-out 0.5s;
+  transform: translateY(0);
+}
+
+.is-opening .envelope-flap-bottom {
+  transform: translateY(100%);
+}
+
+.envelope-letter {
+  transition: opacity 1s ease-out 1s, transform 1s ease-out 1s;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.is-opening .envelope-letter {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.torn-paper-top {
+  clip-path: polygon(0% 10px, 5% 0px, 10% 12px, 15% 2px, 20% 10px, 25% 0px, 30% 12px, 35% 2px, 40% 12px, 45% 0px, 50% 12px, 55% 2px, 60% 12px, 65% 0px, 70% 12px, 75% 2px, 80% 12px, 85% 0px, 90% 12px, 95% 2px, 100% 10px, 100% 100%, 0% 100%);
+}
+
+.torn-paper-bottom {
+  clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 10px), 95% 100%, 90% calc(100% - 12px), 85% 100%, 80% calc(100% - 12px), 75% 100%, 70% calc(100% - 12px), 65% 100%, 60% calc(100% - 12px), 55% 100%, 50% calc(100% - 12px), 45% 100%, 40% calc(100% - 12px), 35% 100%, 30% calc(100% - 12px), 25% 100%, 20% calc(100% - 12px), 15% 100%, 10% calc(100% - 12px), 5% 100%, 0% calc(100% - 10px));
+}
