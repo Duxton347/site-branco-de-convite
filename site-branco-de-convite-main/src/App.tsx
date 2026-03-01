@@ -2,8 +2,11 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
-import { useState, useEffect, useRef } from 'react';
-import { motion, useScroll } from 'motion/react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useScroll, AnimatePresence } from 'motion/react';
+
+// Substitua pela URL de Implantação do Google Apps Script
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbwxfkhGaiRC6XPY43uB-EwBZkX3RGe11ohWpyJurfLbnoSwvXZnVJjqRPSyGnoRQuOr_A/exec';
 
 export default function App() {
   const [isOpened, setIsOpened] = useState(false);
@@ -14,6 +17,103 @@ export default function App() {
     target: timelineRef as any,
     offset: ["start 80%", "end 20%"]
   });
+
+  // ========== RSVP STATE ==========
+  const [rsvpState, setRsvpState] = useState<'search' | 'confirming' | 'success'>('search');
+  const [searchValue, setSearchValue] = useState('');
+  const [searchError, setSearchError] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
+  const [selectedGroup, setSelectedGroup] = useState<any>(null);
+
+  const [guestConfirmations, setGuestConfirmations] = useState<Record<string, boolean>>({});
+  const [needsVan, setNeedsVan] = useState(false);
+  const [needsAccommodation, setNeedsAccommodation] = useState(false);
+  const [childrenCount, setChildrenCount] = useState('');
+  const [guestMessage, setGuestMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Handlers para o RSVP
+  const handleSearchSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSearchError('');
+    if (!searchValue.trim()) return;
+
+    setIsSearching(true);
+    try {
+      const res = await fetch(GAS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // Content-type raw for Apps Script CORS
+        body: JSON.stringify({ action: 'search', query: searchValue })
+      });
+      const data = await res.json();
+
+      if (data.error) {
+        setSearchError(data.message || data.error);
+      } else if (data.group) {
+        setSelectedGroup(data.group);
+        // Inicializa o estado de confirmacao de todo mundo do grupo pra vazio ou false se preferir, deixando undefined para forçar clique
+        setGuestConfirmations({});
+        setRsvpState('confirming');
+      }
+    } catch (err) {
+      setSearchError('Erro ao buscar convidado. Tente novamente mais tarde.');
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const handleConfirmSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSearchError('');
+
+    // Verifica se todos as pessoas do grupo foram sinalizadas
+    const allNames = [selectedGroup.principal_raw, ...selectedGroup.members_raw];
+    const missing = allNames.some(name => guestConfirmations[name] === undefined);
+
+    if (missing) {
+      setSearchError('Por favor, marque SIM ou NÃO para todas as pessoas do seu grupo acima.');
+      return;
+    }
+
+    const whatsappInput = (document.getElementById('whatsapp') as HTMLInputElement)?.value;
+
+    const attendingMembers = allNames.filter(name => guestConfirmations[name] === true);
+    const notAttendingMembers = allNames.filter(name => guestConfirmations[name] === false);
+
+    setIsSubmitting(true);
+    try {
+      const res = await fetch(GAS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          action: 'confirm',
+          payload: {
+            groupId: selectedGroup.group_id,
+            principalName: selectedGroup.principal_raw,
+            whatsapp: whatsappInput,
+            attendingMembers,
+            notAttendingMembers,
+            totalGuests: attendingMembers.length,
+            needsVan,
+            needsAccommodation,
+            childrenCount: childrenCount || 0,
+            message: guestMessage
+          }
+        })
+      });
+
+      const data = await res.json();
+      if (data.error) {
+        setSearchError(data.message || data.error);
+      } else {
+        setRsvpState('success');
+      }
+    } catch (error) {
+      setSearchError('Ocorreu um erro ao enviar sua confirmação. Tente novamente.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 
   const handleOpen = () => {
     setIsOpened(true);
@@ -95,7 +195,11 @@ export default function App() {
               onClick={handleOpen}
               aria-label="Abrir convite"
             >
-              <img src="https://irmaosdreon.com.br/wp-content/uploads/2026/02/selo.svg" className="w-[120px] md:w-[150px] drop-shadow-2xl" alt="Selo do envelope" />
+              <img
+                src="https://irmaosdreon.com.br/wp-content/uploads/2026/02/selo.svg"
+                className="w-[120px] h-[104px] md:w-[150px] md:h-[130px] drop-shadow-2xl object-contain text-transparent"
+                alt="Selo do envelope"
+              />
             </button>
           </div>
         </div>
@@ -496,7 +600,7 @@ export default function App() {
         <section className="w-full py-24 px-4 bg-background-light relative" id="rsvp">
           <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuC5t7oEpGV1tKMe_LOkAOZdirWx3yojmBvX9m2C1SrRYi73np9F3BExxLG4Hs2U7e1cwynZXaTn9ELZ5ZqkkWvTvMNAkLBcJZApxxX3HbrBlZY_9c60XKaXF47uGXMNasEs37MZ9TnbHhG5TJWoNjevUBI6c5Wlc3wrwa9UnbgArk2nZe2d2avR-qRuLbacHyofld16jxXe-QSjgHx6opwF6m68TrZncRQC-h7Jr6783tDbTPp5tJWPITdfSE_870jxKcW42JJ6q4M')" }}></div>
           <motion.div
-            className="max-w-xl mx-auto bg-white p-8 md:p-12 shadow-2xl relative torn-paper-top torn-paper-bottom"
+            className="max-w-xl mx-auto bg-white p-8 md:p-12 shadow-2xl relative torn-paper-top torn-paper-bottom min-h-[500px]"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -506,129 +610,202 @@ export default function App() {
               <h2 className="text-5xl md:text-7xl font-script text-gold mb-4">Confirme sua Presença</h2>
               <p className="text-primary-dark/70 font-display text-sm italic">Por favor, responda até 20 de Março</p>
             </div>
-            <form className="flex flex-col gap-8 font-display" onSubmit={(e) => e.preventDefault()}>
 
-              {/* Nome Completo */}
-              <div className="flex flex-col gap-2">
-                <label className="text-xs font-bold text-primary-dark/80 uppercase tracking-widest" htmlFor="name">
-                  Nome Completo
-                </label>
-                <input
-                  className="w-full bg-[#F6F1E8] border border-transparent focus:border-primary/30 focus:bg-white px-4 py-3 rounded-sm text-primary-dark placeholder-primary-dark/40 outline-none transition-all"
-                  id="name"
-                  name="name"
-                  placeholder="Digite seu nome"
-                  type="text"
-                />
-              </div>
+            <AnimatePresence mode="wait">
+              {rsvpState === 'search' && (
+                <motion.form
+                  key="search"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex flex-col gap-6 font-display"
+                  onSubmit={handleSearchSubmit}
+                >
+                  <div className="flex flex-col gap-2">
+                    <label className="text-xs font-bold text-primary-dark/80 uppercase tracking-widest" htmlFor="searchName">
+                      Digite seu Nome e Sobrenome
+                    </label>
+                    <input
+                      className="w-full bg-[#F6F1E8] border border-transparent focus:border-primary/30 focus:bg-white px-4 py-4 rounded-sm text-primary-dark placeholder-primary-dark/40 outline-none transition-all text-lg"
+                      id="searchName"
+                      value={searchValue}
+                      onChange={(e) => setSearchValue(e.target.value)}
+                      placeholder="Ex: João da Silva"
+                      type="text"
+                      autoComplete="off"
+                      spellCheck="false"
+                    />
+                  </div>
 
-              {/* Whatsapp */}
-              <div className="flex flex-col gap-2">
-                <label className="text-xs font-bold text-primary-dark/80 uppercase tracking-widest" htmlFor="whatsapp">
-                  Whatsapp
-                </label>
-                <input
-                  className="w-full bg-[#F6F1E8] border border-transparent focus:border-primary/30 focus:bg-white px-4 py-3 rounded-sm text-primary-dark placeholder-primary-dark/40 outline-none transition-all"
-                  id="whatsapp"
-                  name="whatsapp"
-                  placeholder="(00) 00000-0000"
-                  type="tel"
-                />
-              </div>
+                  {searchError && (
+                    <p className="text-red-500 text-sm font-bold bg-red-50 p-3 rounded border border-red-100">{searchError}</p>
+                  )}
 
-              {/* Attendance Buttons */}
-              <div className="flex flex-col gap-3">
-                <label className="text-xs font-bold text-primary-dark/80 uppercase tracking-widest">
-                  Você irá comparecer?
-                </label>
-                <div className="flex gap-4">
-                  <label className="flex-1 cursor-pointer">
-                    <input type="radio" name="attendance" value="yes" className="peer sr-only" />
-                    <div className="w-full h-12 flex items-center justify-center bg-[#6a7a5b] text-white font-bold rounded-sm shadow-sm opacity-90 hover:opacity-100 peer-checked:ring-2 peer-checked:ring-offset-2 peer-checked:ring-[#6a7a5b] transition-all">
-                      Sim, com certeza!
-                    </div>
-                  </label>
-                  <label className="flex-1 cursor-pointer">
-                    <input type="radio" name="attendance" value="no" className="peer sr-only" />
-                    <div className="w-full h-12 flex items-center justify-center bg-[#F6F1E8] text-primary-dark/80 font-bold rounded-sm shadow-sm hover:bg-[#ebe5da] peer-checked:ring-2 peer-checked:ring-offset-2 peer-checked:ring-primary-dark/20 transition-all">
-                      Infelizmente não
-                    </div>
-                  </label>
-                </div>
-              </div>
-
-              {/* Total Guests */}
-              <div className="flex flex-col gap-2">
-                <label className="text-xs font-bold text-primary-dark/80 uppercase tracking-widest" htmlFor="guests">
-                  Total de Convidados (Incluindo você)
-                </label>
-                <div className="relative">
-                  <select
-                    className="w-full bg-[#F6F1E8] border border-transparent focus:border-primary/30 focus:bg-white px-4 py-3 rounded-sm text-primary-dark outline-none appearance-none cursor-pointer transition-all"
-                    id="guests"
-                    name="guests"
+                  <button
+                    disabled={isSearching || !searchValue.trim()}
+                    className="mt-4 w-full h-14 bg-primary hover:bg-primary-dark text-white font-bold uppercase tracking-widest transition-all rounded-sm shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    type="submit"
                   >
-                    <option>1 Pessoa</option>
-                    <option>2 Pessoas</option>
-                    <option>3 Pessoas</option>
-                    <option>4 Pessoas</option>
-                    <option>5 Pessoas</option>
-                  </select>
-                  <span className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-primary-dark/50 material-symbols-outlined text-sm">expand_more</span>
-                </div>
-              </div>
+                    {isSearching ? (
+                      <span className="material-symbols-outlined text-white/80 animate-spin">refresh</span>
+                    ) : 'Buscar Convite'}
+                  </button>
+                </motion.form>
+              )}
 
-              {/* Toggles */}
-              <div className="flex flex-col gap-6 py-2">
-                <label className="flex items-center justify-between cursor-pointer group">
-                  <span className="text-primary-dark/80 italic text-lg">Precisa de van do local do casamento?</span>
-                  <div className="relative">
-                    <input type="checkbox" className="peer sr-only" />
-                    <div className="w-11 h-6 bg-[#ebe5da] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#6a7a5b]"></div>
+              {rsvpState === 'confirming' && selectedGroup && (
+                <motion.form
+                  key="confirming"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex flex-col gap-8 font-display"
+                  onSubmit={handleConfirmSubmit}
+                >
+                  <div className="bg-[#F6F1E8]/50 p-6 rounded-sm border border-primary/10 mb-2">
+                    <h3 className="font-script text-3xl text-primary mb-2">Olá, {selectedGroup.principal_raw.split('(')[0].trim()}!</h3>
+                    <p className="text-sm text-primary-dark/70 leading-relaxed font-bold">
+                      Encontramos o seu grupo de convidados:
+                    </p>
+                    <p className="text-sm text-primary-dark/60 leading-relaxed mt-1">
+                      Abaixo, por favor informe OBRIGATORIAMENTE pra cada pessoa listada se ela poderá ou não comparecer.
+                    </p>
                   </div>
-                </label>
 
-                <label className="flex items-center justify-between cursor-pointer group">
-                  <span className="text-primary-dark/80 italic text-lg">Pretende se hospedar no sítio?</span>
-                  <div className="relative">
-                    <input type="checkbox" className="peer sr-only" />
-                    <div className="w-11 h-6 bg-[#ebe5da] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#6a7a5b]"></div>
+                  {/* Whatsapp do Titular */}
+                  <div className="flex flex-col gap-2">
+                    <label className="text-xs font-bold text-primary-dark/80 uppercase tracking-widest" htmlFor="whatsapp">
+                      Seu Whatsapp de Contato
+                    </label>
+                    <input
+                      className="w-full bg-[#F6F1E8] border border-transparent focus:border-primary/30 focus:bg-white px-4 py-3 rounded-sm text-primary-dark outline-none transition-all"
+                      id="whatsapp"
+                      placeholder="(00) 00000-0000"
+                      type="tel"
+                      required
+                    />
                   </div>
-                </label>
-              </div>
 
-              {/* Children */}
-              <div className="flex flex-col gap-2">
-                <label className="text-xs font-bold text-primary-dark/80 uppercase tracking-widest" htmlFor="children">
-                  Crianças (0-10 anos)
-                </label>
-                <input
-                  className="w-full bg-[#F6F1E8] border border-transparent focus:border-primary/30 focus:bg-white px-4 py-3 rounded-sm text-primary-dark placeholder-primary-dark/40 outline-none transition-all"
-                  id="children"
-                  name="children"
-                  placeholder="0"
-                  type="number"
-                  min="0"
-                />
-              </div>
+                  {/* Listagem de Membros */}
+                  <div className="flex flex-col gap-3">
+                    <h4 className="text-xs font-bold text-primary-dark/80 uppercase tracking-widest border-b border-primary/10 pb-2 mb-2">
+                      Sua lista de convidados:
+                    </h4>
 
-              {/* Message */}
-              <div className="flex flex-col gap-2">
-                <label className="text-xs font-bold text-primary-dark/80 uppercase tracking-widest" htmlFor="message">
-                  Mensagem aos Noivos (Opcional)
-                </label>
-                <textarea
-                  className="w-full bg-[#F6F1E8] border border-transparent focus:border-primary/30 focus:bg-white px-4 py-3 rounded-sm text-primary-dark placeholder-primary-dark/40 outline-none transition-all min-h-[100px] resize-none"
-                  id="message"
-                  name="message"
-                  placeholder="Deixe uma mensagem carinhosa ou informe restrições alimentares..."
-                ></textarea>
-              </div>
+                    {/* Renderiza o titular */}
+                    <GuestToggle
+                      name={selectedGroup.principal_raw}
+                      value={guestConfirmations[selectedGroup.principal_raw]}
+                      onChange={(val) => setGuestConfirmations(prev => ({ ...prev, [selectedGroup.principal_raw]: val }))}
+                    />
 
-              <button className="mt-4 w-full h-14 bg-primary hover:bg-primary-dark text-white font-bold uppercase tracking-widest transition-colors rounded-sm shadow-md" type="submit">
-                Enviar Confirmação
-              </button>
-            </form>
+                    {/* Renderiza acompanhantes */}
+                    {selectedGroup.members_raw.map((member: string) => (
+                      <GuestToggle
+                        key={member}
+                        name={member}
+                        value={guestConfirmations[member]}
+                        onChange={(val) => setGuestConfirmations(prev => ({ ...prev, [member]: val }))}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Detalhes extras */}
+                  <div className="flex flex-col gap-6 py-4 mt-2 border-t border-primary/10">
+                    <label className="flex items-center justify-between cursor-pointer group">
+                      <span className="text-primary-dark/80 italic text-lg pr-4">Precisa de van do local do casamento? (Maresias x Sítio)</span>
+                      <div className="relative flex-shrink-0">
+                        <input type="checkbox" className="peer sr-only" checked={needsVan} onChange={(e) => setNeedsVan(e.target.checked)} />
+                        <div className="w-11 h-6 bg-[#ebe5da] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#6a7a5b]"></div>
+                      </div>
+                    </label>
+
+                    <label className="flex items-center justify-between cursor-pointer group">
+                      <span className="text-primary-dark/80 italic text-lg pr-4">Pretende se hospedar no sítio?</span>
+                      <div className="relative flex-shrink-0">
+                        <input type="checkbox" className="peer sr-only" checked={needsAccommodation} onChange={(e) => setNeedsAccommodation(e.target.checked)} />
+                        <div className="w-11 h-6 bg-[#ebe5da] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#6a7a5b]"></div>
+                      </div>
+                    </label>
+                  </div>
+
+                  {/* Crianças e Mensagem */}
+                  <div className="flex flex-col gap-2">
+                    <label className="text-xs font-bold text-primary-dark/80 uppercase tracking-widest" htmlFor="children">
+                      Crianças de colo / pequenas (0-10 anos)
+                    </label>
+                    <input
+                      className="w-full bg-[#F6F1E8] px-4 py-3 rounded-sm border focus:bg-white focus:border-primary/20 text-primary-dark outline-none"
+                      id="children"
+                      value={childrenCount}
+                      onChange={e => setChildrenCount(e.target.value)}
+                      placeholder="0"
+                      type="number"
+                      min="0"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <label className="text-xs font-bold text-primary-dark/80 uppercase tracking-widest" htmlFor="message">
+                      Mensagem aos Noivos / Restrições alimentares
+                    </label>
+                    <textarea
+                      className="w-full bg-[#F6F1E8] px-4 py-3 rounded-sm border focus:bg-white focus:border-primary/20 text-primary-dark outline-none resize-none h-24"
+                      id="message"
+                      value={guestMessage}
+                      onChange={e => setGuestMessage(e.target.value)}
+                      placeholder="Ex: Sou vegano e alérgico a amendoim..."
+                    />
+                  </div>
+
+                  {searchError && (
+                    <p className="text-red-500 text-sm font-bold bg-red-50 p-3 rounded border border-red-100">{searchError}</p>
+                  )}
+
+                  <button
+                    disabled={isSubmitting}
+                    className="mt-4 relative overflow-hidden group w-full h-14 bg-primary text-white font-bold uppercase tracking-widest rounded-sm shadow-md disabled:opacity-70 transition-all border border-transparent hover:border-white/20"
+                    type="submit"
+                  >
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      {isSubmitting ? <span className="material-symbols-outlined animate-spin text-white">refresh</span> : 'Enviar Confirmação e Finalizar'}
+                    </span>
+                    {/* Animação que vai pro lado e fica verde! */}
+                    <div className="absolute top-0 left-0 w-full h-full bg-green-600 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out z-0"></div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => { setRsvpState('search'); setSelectedGroup(null); setSearchValue(''); setSearchError(''); }}
+                    className="text-primary-dark/50 text-xs font-bold uppercase tracking-widest mt-2 hover:text-primary transition-colors h-10"
+                  >
+                    Cancelar e Voltar
+                  </button>
+                </motion.form>
+              )}
+
+              {rsvpState === 'success' && (
+                <motion.div
+                  key="success"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="flex flex-col items-center justify-center text-center py-12 gap-6"
+                >
+                  <div className="w-24 h-24 bg-[#6a7a5b]/10 rounded-full flex items-center justify-center text-[#6a7a5b] mb-4">
+                    <span className="material-symbols-outlined text-5xl">check_circle</span>
+                  </div>
+                  <h3 className="font-script text-5xl text-primary">Recebemos!</h3>
+                  <p className="text-lg text-primary-dark/80 font-display">
+                    Sua confirmação foi registrada com sucesso na nossa lista de convidados final. Muito obrigado de coração!
+                  </p>
+                  <p className="text-sm font-bold text-primary-dark/60">
+                    Julia & Jesse
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
         </section>
 
@@ -646,6 +823,30 @@ export default function App() {
           </div>
         </footer>
       </main>
+    </div>
+  );
+}
+
+function GuestToggle({ name, value, onChange }: { key?: string, name: string, value?: boolean, onChange: (v: boolean) => void }) {
+  return (
+    <div className="flex flex-col gap-3 p-4 bg-white border border-primary/10 rounded-sm shadow-sm">
+      <span className="font-bold text-primary-dark text-lg leading-tight">{name}</span>
+      <div className="flex gap-4">
+        <button
+          type="button"
+          onClick={() => onChange(true)}
+          className={`flex-1 h-12 flex items-center justify-center font-bold rounded-sm shadow-sm transition-all focus:outline-none ${value === true ? 'bg-[#6a7a5b] text-white ring-2 ring-offset-1 ring-[#6a7a5b]' : 'bg-[#F6F1E8] text-primary-dark/60 hover:bg-[#ebe5da]'}`}
+        >
+          Irá confirmar
+        </button>
+        <button
+          type="button"
+          onClick={() => onChange(false)}
+          className={`flex-1 h-12 flex items-center justify-center font-bold rounded-sm shadow-sm transition-all focus:outline-none ${value === false ? 'bg-red-500/90 text-white ring-2 ring-offset-1 ring-red-500/50' : 'bg-[#F6F1E8] text-primary-dark/60 hover:bg-[#ebe5da]'}`}
+        >
+          Não irá
+        </button>
+      </div>
     </div>
   );
 }
