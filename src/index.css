@@ -5,7 +5,7 @@
   --color-primary-dark: #6F8264;
   --color-primary-light: #A3B198;
   --color-gold: #E0C58E;
-  --color-background-light: #F6F1E8;
+  --color-background-light: #F6F4EE;
   --color-background-dark: #2A2A2A;
   --color-paper: #FFFDF6;
   --color-text-dark: #4A4A4A;
@@ -42,8 +42,59 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Envelope Animations */
+.envelope-base,
+.envelope-seal {
+  transition: opacity 0.5s ease-out;
+}
+
+.is-opening .envelope-base,
+.is-opening .envelope-seal {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.envelope-flap-top,
+.envelope-flap-bottom,
+.envelope-flap-left,
+.envelope-flap-right {
+  transition: transform 1.3s ease-in-out 0.2s;
+}
+
+.is-opening .envelope-flap-top {
+  transform: translateY(-100%);
+}
+
+.is-opening .envelope-flap-bottom {
+  transform: translateY(100%);
+}
+
+.is-opening .envelope-flap-left {
+  transform: translateX(-100%);
+}
+
+.is-opening .envelope-flap-right {
+  transform: translateX(100%);
+}
+
+.envelope-letter {
+  transition: opacity 1s ease-out 0.5s, transform 1s ease-out 0.5s;
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+}
+
+.is-opening .envelope-letter {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 .torn-paper-top {
