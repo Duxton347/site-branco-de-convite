@@ -53,45 +53,48 @@
 
 /* Envelope Animations */
 .envelope-base,
-.envelope-seal,
-.envelope-flap-side {
+.envelope-seal {
   transition: opacity 0.5s ease-out;
 }
 
 .is-opening .envelope-base,
-.is-opening .envelope-seal,
-.is-opening .envelope-flap-side {
+.is-opening .envelope-seal {
   opacity: 0;
   pointer-events: none;
 }
 
-.envelope-flap-top {
-  transition: transform 1.3s ease-in-out 0.5s;
-  transform: translateY(0);
+.envelope-flap-top,
+.envelope-flap-bottom,
+.envelope-flap-left,
+.envelope-flap-right {
+  transition: transform 1.3s ease-in-out 0.2s;
 }
 
 .is-opening .envelope-flap-top {
   transform: translateY(-100%);
 }
 
-.envelope-flap-bottom {
-  transition: transform 1.3s ease-in-out 0.5s;
-  transform: translateY(0);
-}
-
 .is-opening .envelope-flap-bottom {
   transform: translateY(100%);
 }
 
+.is-opening .envelope-flap-left {
+  transform: translateX(-100%);
+}
+
+.is-opening .envelope-flap-right {
+  transform: translateX(100%);
+}
+
 .envelope-letter {
-  transition: opacity 1s ease-out 1s, transform 1s ease-out 1s;
+  transition: opacity 1s ease-out 0.5s, transform 1s ease-out 0.5s;
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(20px) scale(0.95);
 }
 
 .is-opening .envelope-letter {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 .torn-paper-top {

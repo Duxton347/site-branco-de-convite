@@ -41,7 +41,7 @@ export default function App() {
       {/* Envelope Section */}
       <div
         id="envelope-container"
-        className={`fixed inset-0 z-50 flex items-center justify-center bg-background-light transition-opacity duration-1000 ease-in-out overflow-hidden ${isOpened ? 'is-opening pointer-events-none' : ''}`}
+        className={`fixed inset-0 z-50 flex items-center justify-center bg-background-light ease-in-out overflow-hidden transition-all duration-1000 ${isOpened ? 'is-opening pointer-events-none' : ''} ${showContent ? 'opacity-0 scale-105' : 'opacity-100 scale-100'}`}
       >
         <div className="relative w-full h-full">
 
@@ -55,16 +55,16 @@ export default function App() {
           <div className="envelope-base absolute inset-0 bg-primary z-10 pointer-events-none"></div>
 
           {/* Abas Laterais */}
-          <div className="envelope-flap-side absolute inset-0 z-20 pointer-events-none">
+          <div className="absolute inset-0 z-20 pointer-events-none">
             {/* Esquerda */}
-            <div className="absolute top-0 left-0 w-1/2 h-full">
+            <div className="absolute top-0 left-0 w-1/2 h-full envelope-flap-left origin-left">
               <svg className="w-full h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 100 100">
                 <polygon points="0,0 100,50 0,100" className="fill-primary" />
                 <polyline points="0,0 100,50 0,100" fill="none" className="stroke-[#E0C58E]" strokeWidth="1.5" vectorEffect="non-scaling-stroke" strokeLinejoin="round" />
               </svg>
             </div>
             {/* Direita */}
-            <div className="absolute top-0 right-0 w-1/2 h-full">
+            <div className="absolute top-0 right-0 w-1/2 h-full envelope-flap-right origin-right">
               <svg className="w-full h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 100 100">
                 <polygon points="100,0 0,50 100,100" className="fill-primary" />
                 <polyline points="100,0 0,50 100,100" fill="none" className="stroke-[#E0C58E]" strokeWidth="1.5" vectorEffect="non-scaling-stroke" strokeLinejoin="round" />
@@ -272,6 +272,7 @@ export default function App() {
                   fill="none"
                 >
                   <motion.path
+                    initial={{ pathLength: 0 }}
                     d="M50,0 C95,150 95,250 50,333 S5,500 50,666 S95,850 50,1000"
                     stroke="#E0C58E"
                     strokeWidth="0.8"
