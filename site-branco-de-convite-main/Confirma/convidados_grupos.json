@@ -1,5 +1,59 @@
 [
   {
+    "group_id": 9991,
+    "list": "Teste",
+    "principal_raw": "Teste Individual",
+    "principal_trim": "Teste Individual",
+    "principal_key": "teste individual",
+    "members_raw": [],
+    "group_raw": "Teste Individual",
+    "group_hash": "test1",
+    "member_count": 1,
+    "principal_base_raw": "Teste",
+    "principal_base_key": "teste",
+    "principal_search_keys": [
+      "teste individual"
+    ]
+  },
+  {
+    "group_id": 9992,
+    "list": "Teste",
+    "principal_raw": "Teste Casal",
+    "principal_trim": "Teste Casal",
+    "principal_key": "teste casal",
+    "members_raw": [
+      "Acompanhante Teste"
+    ],
+    "group_raw": "Teste Casal\nAcompanhante Teste",
+    "group_hash": "test2",
+    "member_count": 2,
+    "principal_base_raw": "Teste",
+    "principal_base_key": "teste",
+    "principal_search_keys": [
+      "teste casal"
+    ]
+  },
+  {
+    "group_id": 9993,
+    "list": "Teste",
+    "principal_raw": "Teste Familia",
+    "principal_trim": "Teste Familia",
+    "principal_key": "teste familia",
+    "members_raw": [
+      "Membro Teste 1",
+      "Membro Teste 2",
+      "Membro Teste 3"
+    ],
+    "group_raw": "Teste Familia\nMembro Teste 1\nMembro Teste 2\nMembro Teste 3",
+    "group_hash": "test3",
+    "member_count": 4,
+    "principal_base_raw": "Teste",
+    "principal_base_key": "teste",
+    "principal_search_keys": [
+      "teste familia"
+    ]
+  },
+  {
     "group_id": 1,
     "list": "Julia",
     "principal_raw": "Camila (mãe da noiva)",

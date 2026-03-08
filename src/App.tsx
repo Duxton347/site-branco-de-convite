@@ -6,7 +6,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, AnimatePresence } from 'motion/react';
 
 // Substitua pela URL de Implantação do Google Apps Script
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbwxfkhGaiRC6XPY43uB-EwBZkX3RGe11ohWpyJurfLbnoSwvXZnVJjqRPSyGnoRQuOr_A/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbwbe5w5bF_gkkAERetOujLYYAnk0MTn7Z2-A-YaQR9i3NM3rSVtfNOzGVZYalWeEdOQXQ/exec';
 
 export default function App() {
   const [isOpened, setIsOpened] = useState(false);
@@ -274,7 +274,7 @@ export default function App() {
             <div className="space-y-4 pt-10">
               <p className="font-display text-[10px] md:text-xs uppercase tracking-[0.4em] text-primary-dark/60">Eclesiastes 4.12</p>
               <p className="font-display italic text-base md:text-lg text-primary-dark/80 max-w-sm mx-auto">
-                "Um cordão de três dobras não se rompe facilmente."
+                "[...] O cordão de três dobras não se rompe facilmente."
               </p>
             </div>
 
@@ -439,13 +439,13 @@ export default function App() {
               <div className="absolute top-0 left-4 w-64 h-80 bg-slate-200 shadow-xl transform -rotate-3 border-4 border-white z-10">
                 <div
                   className="w-full h-full bg-cover bg-center"
-                  style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuDoRlzgSUWXULuQk9B-XtZYgYKKnDpOWaBlqy4mxfMHm10RcQ4xDqccmE5pGV8qXrVKdcT1LfqBnLxqIUV4SmCombLRnrwdOQnpnkq9Wxd7LZdYYjJBvpd2hGmTj7kDJKF3BfDFFi7LZ9BOwrL9wpfRSiAdlwXic2Ks3BfT3X3o9Z3XxOOngU4DIYEacDsG6fzHeKAVEB-6K7icW2KFRBY8ZjqeIb9bNhR_CLSS4MPJNNeTZPY7Xfg_vz9QELLQabvBy5KeHI7lZt7')" }}
+                  style={{ backgroundImage: "url('https://lh3.googleusercontent.com/d/1-l5kGm7ACRqitipbK1vrjmLT6r4YnSVl')" }}
                 ></div>
               </div>
               <div className="absolute bottom-0 right-4 w-60 h-72 bg-slate-200 shadow-xl transform rotate-3 border-4 border-white z-20">
                 <div
                   className="w-full h-full bg-cover bg-center"
-                  style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuClStczQchcP0E54MCbcN0-8boMZr35CggZkEcSZtS8Mqc3bfsFjgyNPLfMsZYU5cGNlimlrfCVrktQF6_q44ZjgGq5IcFyNfoqXfa-tyW6ch7ru76F0RHZtoYM_8VWig6J8FatqEpdnTFr8gcqxjEf5zW-Eb1D1Yds0XfcDryGWQPZEIa7nl40RkfGzBx2zozjeBx8jBnBQQKMxw3cIZPjUPubA9AcV_U0PIdZZd6rNTgu95RYN2yRgbttBhebd9jbLkZz6j9sV_8')" }}
+                  style={{ backgroundImage: "url('https://lh3.googleusercontent.com/d/1dpAwAkBG5KYRywfDzDUyeEXpNAVOs6Me')" }}
                 ></div>
               </div>
               <div className="absolute -top-10 -left-10 text-primary/20 transform rotate-12 z-0">
@@ -797,18 +797,74 @@ export default function App() {
                   key="success"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="flex flex-col items-center justify-center text-center py-12 gap-6"
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                  className="flex flex-col items-center justify-center text-center py-12 gap-6 relative overflow-hidden"
                 >
-                  <div className="w-24 h-24 bg-[#6a7a5b]/10 rounded-full flex items-center justify-center text-[#6a7a5b] mb-4">
+                  {/* Confetti */}
+                  <ConfettiEffect />
+
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.3, type: "spring", stiffness: 200, damping: 12 }}
+                    className="w-24 h-24 bg-[#6a7a5b]/10 rounded-full flex items-center justify-center text-[#6a7a5b] mb-2 relative z-10"
+                  >
                     <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48" fill="currentColor"><path d="m424-296 282-282-56-56-226 226-114-114-56 56 170 170Zm56 216q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z" /></svg>
-                  </div>
-                  <h3 className="font-script text-5xl text-primary">Recebemos!</h3>
-                  <p className="text-lg text-primary-dark/80 font-display">
-                    Sua confirmação foi registrada com sucesso na nossa lista de convidados final. Muito obrigado de coração!
-                  </p>
-                  <p className="text-sm font-bold text-primary-dark/60">
+                  </motion.div>
+
+                  <motion.h3
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5, duration: 0.5 }}
+                    className="font-script text-5xl text-primary relative z-10"
+                  >
+                    Presença Confirmada!
+                  </motion.h3>
+
+                  <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.7, duration: 0.5 }}
+                    className="text-lg text-primary-dark/80 font-display relative z-10 max-w-md"
+                  >
+                    Sua confirmação foi registrada com sucesso. Estamos muito felizes em saber que você estará conosco nesse dia tão especial!
+                  </motion.p>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.9, duration: 0.5 }}
+                    className="w-48 h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent relative z-10"
+                  />
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.1, duration: 0.5 }}
+                    className="flex flex-col items-center gap-4 relative z-10"
+                  >
+                    <p className="text-base text-primary-dark/70 font-display italic max-w-sm">
+                      Se desejar, ficaremos muito felizes com o seu carinho através de um presente. 🤍
+                    </p>
+                    <a
+                      href="https://site.lejour.com.br/julia-e-jesse"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-2 inline-flex items-center justify-center gap-3 h-14 px-10 bg-gold hover:bg-[#d4b57e] text-white font-bold uppercase tracking-widest rounded-sm shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 text-xs"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20" fill="currentColor"><path d="M160-80q-33 0-56.5-23.5T80-160v-400q0-33 23.5-56.5T160-640h120v-80q0-66 47-113t113-47q66 0 113 47t47 113v80h160q33 0 56.5 23.5T840-560v400q0 33-23.5 56.5T760-80H160Zm0-80h600v-400H160v400Zm200-480h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80ZM160-160v-400 400Z" /></svg>
+                      Presentear os Noivos
+                    </a>
+                  </motion.div>
+
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1.5, duration: 0.5 }}
+                    className="text-sm font-bold text-primary-dark/60 font-script text-2xl relative z-10 mt-4"
+                  >
                     Julia & Jesse
-                  </p>
+                  </motion.p>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -828,6 +884,56 @@ export default function App() {
           </div>
         </footer>
       </main>
+    </div>
+  );
+}
+
+const CONFETTI_COLORS = ['#E0C58E', '#859778', '#6a7a5b', '#d4a574', '#f0c4c4', '#A3B198', '#c9a96e', '#F6F1E8'];
+
+function ConfettiEffect() {
+  const particles = React.useMemo(() => {
+    return Array.from({ length: 50 }, (_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      delay: Math.random() * 2,
+      duration: 2 + Math.random() * 3,
+      size: 4 + Math.random() * 8,
+      color: CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)],
+      rotation: Math.random() * 360,
+      shape: Math.random() > 0.5 ? 'circle' : 'rect',
+    }));
+  }, []);
+
+  return (
+    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+      <style>{`
+        @keyframes confettiFall {
+          0% { transform: translateY(-20px) rotate(0deg) scale(1); opacity: 1; }
+          50% { opacity: 1; }
+          100% { transform: translateY(600px) rotate(720deg) scale(0.3); opacity: 0; }
+        }
+        @keyframes confettiSwing {
+          0%, 100% { translate: -15px 0; }
+          50% { translate: 15px 0; }
+        }
+      `}</style>
+      {particles.map(p => (
+        <div
+          key={p.id}
+          style={{
+            position: 'absolute',
+            left: `${p.left}%`,
+            top: '-10px',
+            width: `${p.size}px`,
+            height: p.shape === 'rect' ? `${p.size * 1.5}px` : `${p.size}px`,
+            backgroundColor: p.color,
+            borderRadius: p.shape === 'circle' ? '50%' : '2px',
+            animation: `confettiFall ${p.duration}s ease-in ${p.delay}s forwards, confettiSwing ${0.5 + Math.random() * 1}s ease-in-out ${p.delay}s ${Math.ceil(p.duration / 0.75)} alternate`,
+            transform: `rotate(${p.rotation}deg)`,
+            opacity: 0,
+          }}
+        />
+      ))}
     </div>
   );
 }
