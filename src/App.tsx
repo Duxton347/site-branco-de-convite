@@ -15,7 +15,7 @@ export default function App() {
   const timelineRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: timelineRef as any,
-    offset: ["start 80%", "end 20%"]
+    offset: ["start 80%", "end 15%"]
   });
 
   // ========== RSVP STATE ==========
@@ -274,7 +274,7 @@ export default function App() {
             <div className="space-y-4 pt-10">
               <p className="font-display text-[10px] md:text-xs uppercase tracking-[0.4em] text-primary-dark/60">Eclesiastes 4.12</p>
               <p className="font-display italic text-base md:text-lg text-primary-dark/80 max-w-sm mx-auto">
-                "Um cordão de três dobras não se rompe com facilidade."
+                "Um cordão de três dobras não se rompe facilmente."
               </p>
             </div>
 
@@ -286,7 +286,7 @@ export default function App() {
             <div className="w-48 h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent" />
 
             <p className="font-display text-[10px] md:text-xs uppercase tracking-[0.3em] md:tracking-[0.4em] text-primary-dark/70">
-              Convidam para celebrar o seu amor
+              Convidam você para a cerimônia e festa do seu casamento
             </p>
 
             {/* Date Details */}
@@ -326,7 +326,7 @@ export default function App() {
           >
             <div className="luxury-card bg-background-light p-10 md:p-20 shadow-xl max-w-3xl mx-auto">
               <div className="text-center space-y-8 relative z-10">
-                <span className="material-symbols-outlined text-gold mx-auto opacity-70 text-3xl">favorite</span>
+                <svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 -960 960 960" width="30" className="mx-auto opacity-70" fill="#E0C58E"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Z" /></svg>
                 <h2 className="font-script text-5xl md:text-7xl text-gold">Nossos Convidados</h2>
                 <p className="font-display text-lg md:text-2xl text-primary-dark/80 leading-relaxed italic max-w-2xl mx-auto">
                   Nosso casamento é um sonho que estamos realizando com muito amor, e ter vocês ao nosso lado nesse dia é parte essencial dessa alegria. Queremos celebrar cercados de pessoas que têm significado em nossa vida, e por isso a presença de vocês é tão importante para nós.
@@ -405,8 +405,8 @@ export default function App() {
                   variants={fadeInUp}
                   className="timeline-item w-[calc(50%-10px)] md:w-[calc(40%)] flex flex-col items-center text-center ml-auto"
                 >
-                  <img src="https://irmaosdreon.com.br/wp-content/uploads/2026/02/prato-Festa.svg" alt="Coquetel e ceia" className="w-[140px] md:w-[380px] mb-2 md:mb-4" />
-                  <h4 className="font-script text-[clamp(28px,3vw,36px)] text-primary-dark mb-1 leading-none">Coquetel & Ceia</h4>
+                  <img src="https://irmaosdreon.com.br/wp-content/uploads/2026/02/prato-Festa.svg" alt="Jantar" className="w-[140px] md:w-[380px] mb-2 md:mb-4" />
+                  <h4 className="font-script text-[clamp(28px,3vw,36px)] text-primary-dark mb-1 leading-none">Jantar</h4>
                   <p className="font-display text-text-dark text-[clamp(14px,1.2vw,16px)]">às 18:00</p>
                 </motion.article>
 
@@ -449,7 +449,7 @@ export default function App() {
                 ></div>
               </div>
               <div className="absolute -top-10 -left-10 text-primary/20 transform rotate-12 z-0">
-                <span className="material-symbols-outlined text-9xl">local_florist</span>
+                <svg xmlns="http://www.w3.org/2000/svg" height="96" viewBox="0 -960 960 960" width="96" fill="currentColor"><path d="M440-80q-33 0-56.5-23.5T360-160v-160H200q-33 0-56.5-23.5T120-400q0-23 11-40.5t29-29.5q-18-12-29-29.5T120-540q0-33 23.5-56.5T200-620h70l-96-96q-11-11-17.5-25.5T150-772q0-36 26-62t62-26q16 0 30.5 6.5T294-836l66 66v-70q0-33 23.5-56.5T440-920q23 0 40.5 11t29.5 29q12-18 29.5-29t40.5-11q33 0 56.5 23.5T660-840v70l66-66q11-11 25.5-17.5T782-860q36 0 62 26t26 62q0 16-6.5 30.5T846-716l-96 96h70q33 0 56.5 23.5T900-540q0 23-11 40.5T860-470q18 12 29 29.5t11 40.5q0 33-23.5 56.5T820-320H660v160q0 33-23.5 56.5T580-80h-140Z" /></svg>
               </div>
             </div>
             <div className="w-full md:w-1/2 flex flex-col justify-center text-center md:text-left">
@@ -484,26 +484,32 @@ export default function App() {
               <div className="flex flex-col gap-10">
                 <div className="flex flex-col gap-4">
                   <h3 className="text-4xl text-primary font-script">Sítio Essência</h3>
-                  <p className="text-primary-dark/80 text-lg leading-relaxed font-display">Rua Abra de Dentro, 380 — Bairro Pegorelli — Caraguatatuba/SP</p>
+                  <p className="text-primary-dark/80 text-lg leading-relaxed font-display">Rua Rio Pinheiros, 380 — Porto Novo — Caraguatatuba/SP</p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <a href="https://maps.app.goo.gl/aPPtKgrtumDP1hv98" target="_blank" rel="noreferrer" className="flex-1 bg-primary hover:bg-primary-dark text-white p-4 rounded-sm shadow-md transition-colors flex items-center justify-center gap-2 text-xs font-bold tracking-widest uppercase min-h-[56px]">
-                    <span className="material-symbols-outlined text-lg">map</span>
+                  <a href="https://share.google/G7742NroW63XqF5qN" target="_blank" rel="noreferrer" className="flex-1 bg-primary hover:bg-primary-dark text-white p-4 rounded-sm shadow-md transition-colors flex items-center justify-center gap-2 text-xs font-bold tracking-widest uppercase min-h-[56px]">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 -960 960 960" width="18" fill="currentColor"><path d="M600-120 360-202l-162 68q-21 9-39.5-3T140-172v-576q0-15 9-27t24-17l187-76 240 82 162-68q21-9 39.5 3t18.5 35v576q0 15-9 27t-24 17l-187 76Zm-20-80v-504l-200-68v504l200 68Z" /></svg>
                     Abrir no Google Maps
                   </a>
-                  <a href="https://waze.com/ul?q=Sítio%20Essência%20Caraguatatuba" target="_blank" rel="noreferrer" className="flex-1 bg-white border-2 border-primary text-primary hover:bg-primary/5 p-4 rounded-sm shadow-sm transition-colors flex items-center justify-center gap-2 text-xs font-bold tracking-widest uppercase min-h-[56px]">
-                    <span className="material-symbols-outlined text-lg">navigation</span>
+                  <a href="https://ul.waze.com/ul?place=EkBSdWEuIFJpbyBQaW5oZWlyb3MsIDM4MCAtIFBvcnRvIE5vdm8sIENhcmFndWF0YXR1YmEgLSBTUCwgQnJhemlsIjESLwoUChIJWcsH5ceC0pQR_dQJdvBOhVwQ_AIqFAoSCQEUB-XHgtKUEaMJC7W4NcVp&ll=-23.72020460%2C-45.46036480&navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location" target="_blank" rel="noreferrer" className="flex-1 bg-white border-2 border-primary text-primary hover:bg-primary/5 p-4 rounded-sm shadow-sm transition-colors flex items-center justify-center gap-2 text-xs font-bold tracking-widest uppercase min-h-[56px]">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 -960 960 960" width="18" fill="currentColor"><path d="m200-80 56-560h448l56 560H200Zm80-80h400l-40-400H320l-40 400Zm120-640v-80h160v80H400Zm-40 160h240-240Zm0 0h240l20-200H340l20 200Z" /></svg>
                     Abrir no Waze
                   </a>
                 </div>
               </div>
               <div className="relative h-[400px] w-full bg-slate-100 rounded-lg overflow-hidden border-8 border-white shadow-lg rotate-1 transform hover:rotate-0 transition-transform duration-500">
-                <div
-                  className="absolute inset-0 bg-cover bg-center"
-                  style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuA_zyblpLzro3IEemCTJyrf_BPleWvsTp4pWmh2IamvZIwWZd7CNH-VbWFxvj8qqT0fkhgXqijK0IBvrPDXQqtH1UG2DxCj3YvxrP8aVK8Re2mviMlXunOtZedVh5JLjdAIUVhRfD9HvYXy2j4tpMLQ_IAv-2aCh4Klm_FQ3EmrM3tYXuj6m2Lngiac556t7kd6ZGEYqHpoDe51D3zBnN8BvmmfaHmYrfSMMnyCugmzbbTPE3uLiIFsPcpdhlgvjnyLSRxf0MKEYkw')" }}
-                >
-                </div>
-                <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur px-4 py-2 rounded-sm shadow text-xs font-bold text-slate-800">Sítio Essência, Caraguatatuba</div>
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3645.5!2d-45.4625!3d-23.7202!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94d282c7e507cb59%3A0x5c854ef076d4d4fd!2sR.%20Rio%20Pinheiros%2C%20380%20-%20Porto%20Novo%2C%20Caraguatatuba%20-%20SP%2C%20Brazil!5e0!3m2!1spt-BR!2sbr!4v1709900000000!5m2!1spt-BR!2sbr"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Localização Sítio Essência"
+                  className="absolute inset-0"
+                />
+                <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur px-4 py-2 rounded-sm shadow text-xs font-bold text-slate-800 pointer-events-none">Sítio Essência, Caraguatatuba</div>
               </div>
             </div>
           </motion.div>
@@ -525,7 +531,7 @@ export default function App() {
             <div className="absolute -bottom-10 -right-10 w-48 h-48 opacity-20 pointer-events-none mix-blend-multiply -rotate-12">
               <img className="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxRhfyxH6ldJVHkWFe1rLlPOZK7eACjRgza80X-rQ3fQg0MAl6FqwnR49UlnBLPLNQY5b_MhDfGN3svMgMHtfevgQg6500vR4jZCrNezOI_8c4KkZME3bTN0ezOwZ3lSmCdh6Rcjem9acp_J5yMv8gM795za38M2CoeKCjOFvFOvAZac8-8ecDVBP9__ZatB98waSqwXX2yOnzDqPcgcYy6B9jXnf_fv-H6JHyz-ZLop3lYg0xoiv_wNnoVFYiynusnzpFUwMURGw" alt="Floral decoration" />
             </div>
-            <span className="material-symbols-outlined text-[#859778] text-5xl mb-6">checkroom</span>
+            <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48" fill="#859778" className="mb-6"><path d="M480-528 300-368q-23 19-51.5 13.5T210-386q-10-27-1-53t35-43l196-152q-12-12-20-28.5t-8-37.5q0-42 29-71t71-29q42 0 71 29t29 71q0 21-8 37.5T584-634l196 152q26 17 35 43t-1 53q-10 26-38.5 31.5T724-368L480-528ZM200-120q-17 0-28.5-11.5T160-160q0-17 11.5-28.5T200-200h560q17 0 28.5 11.5T800-160q0 17-11.5 28.5T760-120H200Z" /></svg>
             <h3 className="text-5xl md:text-7xl font-script text-gold mb-8">Traje</h3>
             <div className="bg-white/40 p-8 md:p-12 rounded-sm border border-[#859778]/10 backdrop-blur-sm">
               <p className="text-xl md:text-2xl text-primary-dark/80 leading-relaxed font-display mb-6">
@@ -555,14 +561,14 @@ export default function App() {
                     Transporte & <br /> Hospedagem
                   </h2>
                 </div>
-                <span className="material-symbols-outlined text-[#F6F1E8] text-7xl select-none hidden md:block">directions_bus</span>
+                <svg xmlns="http://www.w3.org/2000/svg" height="70" viewBox="0 -960 960 960" width="70" fill="#F6F1E8" className="select-none hidden md:block"><path d="M240-120q-17 0-28.5-11.5T200-160v-82q-18-20-29-44.5T160-340v-380q0-109 116-154.5T480-920q188 0 304 45.5T900-720v380q0 29-11 53.5T860-242v82q0 17-11.5 28.5T820-120h-40q-17 0-28.5-11.5T740-160v-40H340v40q0 17-11.5 28.5T300-120h-60Zm242-640h238-480 242Zm158 280H240h480-80Zm-400-80h480v-120H240v120Zm100 280q25 0 42.5-17.5T400-340q0-25-17.5-42.5T340-400q-25 0-42.5 17.5T280-340q0 25 17.5 42.5T340-280Zm280 0q25 0 42.5-17.5T680-340q0-25-17.5-42.5T620-400q-25 0-42.5 17.5T560-340q0 25 17.5 42.5T620-280ZM258-760h444q-46-20-121-30t-101-10q-66 0-121 10t-101 30Zm-18 400h480v-120H240v120Z" /></svg>
               </div>
               {/* Content Rows */}
               <div className="flex flex-col gap-10">
                 {/* Suites Section */}
                 <div className="flex gap-5">
                   <div className="flex-shrink-0 w-12 h-12 rounded-full bg-[#F6F1E8] flex items-center justify-center">
-                    <span className="material-symbols-outlined text-[#859778] text-2xl">bed</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#859778"><path d="M80-200v-240q0-27 11-49t29-39v-112q0-50 35-85t85-35h160q23 0 43 8.5t37 23.5q17-15 37-23.5t43-8.5h160q50 0 85 35t35 85v112q18 17 29 39t11 49v240h-80v-80H160v80H80Zm440-360h240v-80q0-17-11.5-28.5T720-680H560q-17 0-28.5 11.5T520-640v80Zm-320 0h240v-80q0-17-11.5-28.5T400-680H240q-17 0-28.5 11.5T200-640v80Zm-40 200h640v-80q0-17-11.5-28.5T760-480H200q-17 0-28.5 11.5T160-440v80Zm640 0H160h640Z" /></svg>
                   </div>
                   <div className="flex flex-col gap-2">
                     <h3 className="text-2xl font-script text-primary-dark">Suítes no Local</h3>
@@ -580,7 +586,7 @@ export default function App() {
                 {/* Van Section */}
                 <div className="flex gap-5">
                   <div className="flex-shrink-0 w-12 h-12 rounded-full bg-[#F6F1E8] flex items-center justify-center">
-                    <span className="material-symbols-outlined text-[#859778] text-2xl">directions_bus</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#859778"><path d="M240-120q-17 0-28.5-11.5T200-160v-82q-18-20-29-44.5T160-340v-380q0-109 116-154.5T480-920q188 0 304 45.5T900-720v380q0 29-11 53.5T860-242v82q0 17-11.5 28.5T820-120h-40q-17 0-28.5-11.5T740-160v-40H340v40q0 17-11.5 28.5T300-120h-60Zm242-640h238-480 242Zm158 280H240h480-80Zm-400-80h480v-120H240v120Zm100 280q25 0 42.5-17.5T400-340q0-25-17.5-42.5T340-400q-25 0-42.5 17.5T280-340q0 25 17.5 42.5T340-280Zm280 0q25 0 42.5-17.5T680-340q0-25-17.5-42.5T620-400q-25 0-42.5 17.5T560-340q0 25 17.5 42.5T620-280ZM258-760h444q-46-20-121-30t-101-10q-66 0-121 10t-101 30Zm-18 400h480v-120H240v120Z" /></svg>
                   </div>
                   <div className="flex flex-col gap-2">
                     <h3 className="text-2xl font-script text-primary-dark">Van saindo de Maresias</h3>
@@ -648,7 +654,7 @@ export default function App() {
                     type="submit"
                   >
                     {isSearching ? (
-                      <span className="material-symbols-outlined text-white/80 animate-spin">refresh</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="rgba(255,255,255,0.8)" className="animate-spin"><path d="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 132 28.5T720-692v-108h80v280H520v-80h168q-32-56-87.5-88T480-720q-100 0-170 70t-70 170q0 100 70 170t170 70q77 0 139-44t87-116h84q-28 106-114 173t-196 67Z" /></svg>
                     ) : 'Buscar Convite'}
                   </button>
                 </motion.form>
@@ -770,7 +776,7 @@ export default function App() {
                     type="submit"
                   >
                     <span className="relative z-10 flex items-center justify-center gap-2">
-                      {isSubmitting ? <span className="material-symbols-outlined animate-spin text-white">refresh</span> : 'Enviar Confirmação e Finalizar'}
+                      {isSubmitting ? <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="white" className="animate-spin"><path d="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 132 28.5T720-692v-108h80v280H520v-80h168q-32-56-87.5-88T480-720q-100 0-170 70t-70 170q0 100 70 170t170 70q77 0 139-44t87-116h84q-28 106-114 173t-196 67Z" /></svg> : 'Enviar Confirmação e Finalizar'}
                     </span>
                     {/* Animação que vai pro lado e fica verde! */}
                     <div className="absolute top-0 left-0 w-full h-full bg-green-600 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out z-0"></div>
@@ -794,7 +800,7 @@ export default function App() {
                   className="flex flex-col items-center justify-center text-center py-12 gap-6"
                 >
                   <div className="w-24 h-24 bg-[#6a7a5b]/10 rounded-full flex items-center justify-center text-[#6a7a5b] mb-4">
-                    <span className="material-symbols-outlined text-5xl">check_circle</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48" fill="currentColor"><path d="m424-296 282-282-56-56-226 226-114-114-56 56 170 170Zm56 216q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z" /></svg>
                   </div>
                   <h3 className="font-script text-5xl text-primary">Recebemos!</h3>
                   <p className="text-lg text-primary-dark/80 font-display">
@@ -811,14 +817,13 @@ export default function App() {
 
         {/* Footer */}
         <footer className="w-full bg-white py-16 flex flex-col items-center justify-center border-t border-[#F6F1E8]">
-          <h2 className="text-5xl md:text-6xl font-script text-gold mb-2">Julia & Jesse</h2>
-          <p className="text-primary-dark/60 font-display italic text-base mb-8">Nos vemos no altar.</p>
+          <h2 className="text-5xl md:text-6xl font-script text-gold mb-8">Julia & Jesse</h2>
           <div className="flex gap-4">
             <a href="#" className="text-primary-dark/40 hover:text-gold transition-colors">
-              <span className="material-symbols-outlined">mail</span>
+              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z" /></svg>
             </a>
             <a href="#" className="text-slate-400 hover:text-primary transition-colors">
-              <span className="material-symbols-outlined">favorite</span>
+              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Z" /></svg>
             </a>
           </div>
         </footer>
