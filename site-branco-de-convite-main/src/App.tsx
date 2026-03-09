@@ -6,7 +6,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, AnimatePresence } from 'motion/react';
 
 // Substitua pela URL de Implantação do Google Apps Script
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbwxfkhGaiRC6XPY43uB-EwBZkX3RGe11ohWpyJurfLbnoSwvXZnVJjqRPSyGnoRQuOr_A/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbx5Hg7iNYLdBO8zef0L-2GHmm_vD7CertktSeeHo23ZuinUWb_oVkbGmBnu60LAsj6WHg/exec';
 
 export default function App() {
   const [isOpened, setIsOpened] = useState(false);

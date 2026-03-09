@@ -6,7 +6,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, AnimatePresence } from 'motion/react';
 
 // Substitua pela URL de Implantação do Google Apps Script
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbwbe5w5bF_gkkAERetOujLYYAnk0MTn7Z2-A-YaQR9i3NM3rSVtfNOzGVZYalWeEdOQXQ/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbx5Hg7iNYLdBO8zef0L-2GHmm_vD7CertktSeeHo23ZuinUWb_oVkbGmBnu60LAsj6WHg/exec';
 
 export default function App() {
   const [isOpened, setIsOpened] = useState(false);
@@ -47,7 +47,10 @@ export default function App() {
       });
       const data = await res.json();
 
-      if (data.error) {
+      if (data.error === 'already_confirmed') {
+        // Convidado já confirmou — mostra tela de sucesso direto
+        setRsvpState('success');
+      } else if (data.error) {
         setSearchError(data.message || data.error);
       } else if (data.group) {
         setSelectedGroup(data.group);
@@ -89,7 +92,9 @@ export default function App() {
           action: 'confirm',
           payload: {
             groupId: selectedGroup.group_id,
+            list: selectedGroup.list || '',
             principalName: selectedGroup.principal_raw,
+            groupHash: selectedGroup.group_hash || '',
             whatsapp: whatsappInput,
             attendingMembers,
             notAttendingMembers,
@@ -103,7 +108,10 @@ export default function App() {
       });
 
       const data = await res.json();
-      if (data.error) {
+      if (data.error === 'already_confirmed') {
+        // Tratamento de race condition — grupo já confirmou entre a busca e o envio
+        setRsvpState('success');
+      } else if (data.error) {
         setSearchError(data.message || data.error);
       } else {
         setRsvpState('success');
