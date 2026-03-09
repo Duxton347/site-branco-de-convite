@@ -307,7 +307,7 @@ export default function App() {
             </div>
 
             <p className="font-display text-[10px] md:text-sm uppercase tracking-[0.3em] md:tracking-[0.4em] text-primary-dark/80">
-              Terça - Feira às 15:30
+              Terça-feira às 15:30
             </p>
 
             {/* Location */}
@@ -467,7 +467,7 @@ export default function App() {
                   Tudo começou na igreja, onde eu a via de longe em vários momentos. Havia algo nela que chamava meu coração de um jeito especial, e, em silêncio, passei a admirá-la e a orar por ela.
                 </p>
                 <p className="mb-4">
-                  Com o tempo, nos aproximamos, nos conhecemos de verdade, e aquilo que nasceu em oração se transformou em amor. Em dois anos juntos, oficializamos o noivado e agora, estamos prontos para dar o próximo passo da nossa maior jornada: o nosso casamento.
+                  Com o tempo, nos aproximamos, nos conhecemos de verdade, e aquilo que nasceu em oração se transformou em amor. Em dois anos juntos, oficializamos o noivado e, agora, estamos prontos para dar o próximo passo da nossa maior jornada: o nosso casamento.
                 </p>
               </div>
             </div>
@@ -684,14 +684,14 @@ export default function App() {
                       Encontramos o seu grupo de convidados:
                     </p>
                     <p className="text-sm text-primary-dark/60 leading-relaxed mt-1">
-                      Abaixo, por favor informe OBRIGATORIAMENTE pra cada pessoa listada se ela poderá ou não comparecer.
+                      Abaixo, por favor, informe obrigatoriamente para cada pessoa listada se ela poderá ou não comparecer.
                     </p>
                   </div>
 
                   {/* Whatsapp do Titular */}
                   <div className="flex flex-col gap-2">
                     <label className="text-xs font-bold text-primary-dark/80 uppercase tracking-widest" htmlFor="whatsapp">
-                      Seu Whatsapp de Contato
+                      Seu WhatsApp
                     </label>
                     <input
                       className="w-full bg-[#F6F1E8] border border-transparent focus:border-primary/30 focus:bg-white px-4 py-3 rounded-sm text-primary-dark outline-none transition-all"
@@ -748,7 +748,7 @@ export default function App() {
                   {/* Crianças e Mensagem */}
                   <div className="flex flex-col gap-2">
                     <label className="text-xs font-bold text-primary-dark/80 uppercase tracking-widest" htmlFor="children">
-                      Crianças de colo / pequenas (0-10 anos)
+                      Crianças de colo/pequenas (0–10 anos)
                     </label>
                     <input
                       className="w-full bg-[#F6F1E8] px-4 py-3 rounded-sm border focus:bg-white focus:border-primary/20 text-primary-dark outline-none"
