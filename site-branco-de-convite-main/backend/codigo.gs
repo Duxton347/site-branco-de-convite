@@ -2066,14 +2066,18 @@ function handleConfirm(payload) {
 
   const timestamp = new Date();
   
+  const attendingNames = (payload.attendingMembers && Array.isArray(payload.attendingMembers)) ? payload.attendingMembers.join(', ') : '';
+  const notAttendingNames = (payload.notAttendingMembers && Array.isArray(payload.notAttendingMembers)) ? payload.notAttendingMembers.join(', ') : '';
+  const totalGuests = payload.totalGuests ? parseInt(payload.totalGuests.toString(), 10) : 0;
+
   sheet.appendRow([
     timestamp,
     payload.groupId,
     payload.principalName,
     payload.whatsapp || 'Não informado',
-    payload.attendingMembers ? payload.attendingMembers.join(', ') : '',
-    payload.notAttendingMembers ? payload.notAttendingMembers.join(', ') : '',
-    payload.totalGuests || 0,
+    attendingNames,
+    notAttendingNames,
+    totalGuests,
     payload.needsVan ? 'Sim' : 'Não',
     payload.needsAccommodation ? 'Sim' : 'Não',
     payload.childrenCount || 0,

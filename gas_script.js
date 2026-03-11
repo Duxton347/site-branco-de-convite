@@ -1,4 +1,4 @@
-﻿// ==========================================
+// ==========================================
 // SCRIPT DE CONFIRMACAO DE PRESENCA (RSVP)
 // Substitua TODO o codigo do Google Apps Script por este
 // ==========================================
@@ -2098,19 +2098,23 @@ function handleConfirm(payload) {
   var notesParts = [];
   if (payload.childrenCount && parseInt(payload.childrenCount) > 0) notesParts.push('Criancas: ' + payload.childrenCount);
   if (payload.message) notesParts.push(payload.message);
+  
+  var attendingNames = (payload.attendingMembers && Array.isArray(payload.attendingMembers)) ? payload.attendingMembers.join(', ') : '';
+  var notAttendingNames = (payload.notAttendingMembers && Array.isArray(payload.notAttendingMembers)) ? payload.notAttendingMembers.join(', ') : '';
+  var totalGuests = payload.totalGuests ? parseInt(payload.totalGuests, 10) : 0;
+
   sheet.appendRow([
-    confirmationId,
     now.toISOString(),
     payload.groupId,
-    payload.list || '',
     payload.principalName,
-    JSON.stringify(payload.attendingMembers || []),
-    JSON.stringify(payload.notAttendingMembers || []),
+    payload.whatsapp || 'Nao informado',
+    attendingNames,
+    notAttendingNames,
+    totalGuests,
     payload.needsVan ? 'Sim' : 'Nao',
     payload.needsAccommodation ? 'Sim' : 'Nao',
-    payload.whatsapp || 'Nao informado',
-    notesParts.join(' | '),
-    payload.inviteCode || payload.groupHash || ''
+    payload.childrenCount || 0,
+    notesParts.join(' | ')
   ]);
   return respondJSON({ success: true, message: 'Presenca confirmada com sucesso!' });
 }

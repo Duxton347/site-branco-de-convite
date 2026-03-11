@@ -7,7 +7,7 @@ import { motion, useScroll, AnimatePresence } from 'motion/react';
 import sitioEssenciaIcon from './assets/sitio_essencia.png';
 
 // Substitua pela URL de Implantação do Google Apps Script
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbx5Hg7iNYLdBO8zef0L-2GHmm_vD7CertktSeeHo23ZuinUWb_oVkbGmBnu60LAsj6WHg/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbzYcWoeO1TuoVkDvI29oB5TPjkpd9G9Pv8LmkLpLo1oevp4xoE3Fl3qTPmUqXb-b9jNrQ/exec';
 
 export default function App() {
   const [isOpened, setIsOpened] = useState(false);
@@ -86,25 +86,27 @@ export default function App() {
 
     setIsSubmitting(true);
     try {
+      const payload = {
+        groupId: selectedGroup.group_id,
+        list: selectedGroup.list || '',
+        principalName: selectedGroup.principal_raw,
+        groupHash: selectedGroup.group_hash || '',
+        whatsapp: whatsappInput,
+        attendingMembers: attendingMembers,
+        notAttendingMembers: notAttendingMembers,
+        totalGuests: attendingMembers.length,
+        needsVan: needsVan,
+        needsAccommodation: needsAccommodation,
+        childrenCount: childrenCount || 0,
+        message: guestMessage
+      };
+
       const res = await fetch(GAS_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({
           action: 'confirm',
-          payload: {
-            groupId: selectedGroup.group_id,
-            list: selectedGroup.list || '',
-            principalName: selectedGroup.principal_raw,
-            groupHash: selectedGroup.group_hash || '',
-            whatsapp: whatsappInput,
-            attendingMembers,
-            notAttendingMembers,
-            totalGuests: attendingMembers.length,
-            needsVan,
-            needsAccommodation,
-            childrenCount: childrenCount || 0,
-            message: guestMessage
-          }
+          payload: payload
         })
       });
 
