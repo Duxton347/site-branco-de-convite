@@ -4,6 +4,7 @@
  */
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, AnimatePresence } from 'motion/react';
+import sitioEssenciaIcon from './assets/sitio_essencia.png';
 
 // Substitua pela URL de Implantação do Google Apps Script
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbx5Hg7iNYLdBO8zef0L-2GHmm_vD7CertktSeeHo23ZuinUWb_oVkbGmBnu60LAsj6WHg/exec';
@@ -15,7 +16,7 @@ export default function App() {
   const timelineRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: timelineRef as any,
-    offset: ["start 80%", "end 15%"]
+    offset: ["start center", "end center"]
   });
 
   // ========== RSVP STATE ==========
@@ -365,7 +366,7 @@ export default function App() {
 
             {/* Timeline Header (Center) */}
             <motion.div variants={fadeInUp} className="timeline-header-center flex flex-col items-center justify-center text-center relative z-20 bg-white mx-auto w-fit px-8 py-4 mb-16">
-              <img src="https://irmaosdreon.com.br/wp-content/uploads/2026/02/local.svg" alt="Local da recepção" className="w-[160px] md:w-[340px] mb-4 opacity-100" />
+              <img src={sitioEssenciaIcon} alt="Local da recepção" className="w-[160px] md:w-[340px] mb-4 opacity-100" />
               <div className="flex flex-col items-center">
                 <h3 className="font-script text-[clamp(28px,3vw,36px)] text-primary-dark mb-1 leading-none">Recepção</h3>
                 <p className="font-display text-text-dark text-[clamp(14px,1.5vw,18px)]">às 15:30</p>
@@ -385,7 +386,7 @@ export default function App() {
                 >
                   <motion.path
                     initial={{ pathLength: 0 }}
-                    d="M50,0 C95,150 95,250 50,333 S5,500 50,666 S95,850 50,1000"
+                    d="M50,0 C90,150 90,250 50,333 S10,500 50,666 S90,850 50,1000"
                     stroke="#E0C58E"
                     strokeWidth="0.8"
                     strokeLinecap="round"
