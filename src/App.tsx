@@ -7,7 +7,7 @@ import { motion, useScroll, AnimatePresence } from 'motion/react';
 import sitioEssenciaIcon from './assets/sitio_essencia.png';
 
 // Substitua pela URL de Implantação do Google Apps Script
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbzYcWoeO1TuoVkDvI29oB5TPjkpd9G9Pv8LmkLpLo1oevp4xoE3Fl3qTPmUqXb-b9jNrQ/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbynTExcIXr5B154jVN3BxCW1orDCm6UTAtesfiFhoq7DDG_dh2QhtBl2mOBlRLck1Lq-g/exec';
 
 export default function App() {
   const [isOpened, setIsOpened] = useState(false);
