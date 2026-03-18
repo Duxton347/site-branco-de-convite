@@ -4209,49 +4209,120 @@ function getUniqueGuestGroups() {
   return groups;
 }
 
+function getGuestGroupMap() {
+  var groups = getUniqueGuestGroups();
+  var map = {};
+
+  for (var i = 0; i < groups.length; i++) {
+    map[String(groups[i].group_id)] = groups[i];
+  }
+
+  return map;
+}
+
+function parseNameList(value) {
+  if (value === null || typeof value === 'undefined' || value === '') return [];
+  if (Array.isArray(value)) return value;
+
+  var text = value.toString().trim();
+  if (!text) return [];
+
+  if (text.charAt(0) === '[') {
+    try {
+      var parsed = JSON.parse(text);
+      if (Array.isArray(parsed)) return parsed.filter(function(item) { return String(item).trim() !== ''; });
+    } catch (e) {}
+  }
+
+  var parts = text.split(',');
+  var items = [];
+
+  for (var i = 0; i < parts.length; i++) {
+    var item = parts[i].toString().trim();
+    if (item) items.push(item);
+  }
+
+  return items;
+}
+
+function isKnownGroupId(value, guestGroupMap) {
+  if (value === null || typeof value === 'undefined' || value === '') return false;
+  return !!guestGroupMap[String(value).trim()];
+}
+
+function isAffirmativeValue(value) {
+  if (value === true) return true;
+  if (value === false || value === null || typeof value === 'undefined') return false;
+
+  var normalized = normalizeName(String(value));
+  return normalized === 'sim' || normalized === 'true' || normalized === 'yes' || normalized === '1';
+}
+
+function buildConfirmationRecord(row, guestGroupMap) {
+  var canonicalGroupId = row[2];
+  var legacyGroupId = row[1];
+  var record = null;
+
+  if (isKnownGroupId(canonicalGroupId, guestGroupMap)) {
+    record = {
+      submitted_at: row[1],
+      group_id: canonicalGroupId,
+      list: row[3],
+      principal_raw: row[4],
+      attending_names: parseNameList(row[5]),
+      not_attending_names: parseNameList(row[6]),
+      total_confirmed: '',
+      needs_van: row[7],
+      needs_accommodation: row[8],
+      contact_phone: row[9],
+      notes: row[10],
+      invite_code: row[11] || ''
+    };
+  } else if (isKnownGroupId(legacyGroupId, guestGroupMap)) {
+    record = {
+      submitted_at: row[0],
+      group_id: legacyGroupId,
+      list: '',
+      principal_raw: row[2],
+      attending_names: parseNameList(row[4]),
+      not_attending_names: parseNameList(row[5]),
+      total_confirmed: row[6],
+      needs_van: row[7],
+      needs_accommodation: row[8],
+      contact_phone: row[3],
+      notes: row[10],
+      invite_code: ''
+    };
+  }
+
+  if (!record) return null;
+
+  record.group_id = String(record.group_id).trim();
+  return record;
+}
+
 function getConfirmationRecords() {
   var ss = SpreadsheetApp.openById(SHEET_ID);
   var sheet = ss.getSheetByName(SHEET_NAME);
   var recordsByGroup = {};
+  var guestGroupMap = getGuestGroupMap();
 
   if (!sheet || sheet.getLastRow() <= 1) return recordsByGroup;
 
-  var values = sheet.getRange(2, 1, sheet.getLastRow() - 1, Math.max(sheet.getLastColumn(), 11)).getValues();
+  var values = sheet.getRange(2, 1, sheet.getLastRow() - 1, Math.max(sheet.getLastColumn(), 12)).getValues();
 
   for (var i = 0; i < values.length; i++) {
-    var row = values[i];
-    var groupId = row[1];
-    if (groupId === '' || groupId === null || typeof groupId === 'undefined') continue;
+    var record = buildConfirmationRecord(values[i], guestGroupMap);
+    if (!record) continue;
 
-    recordsByGroup[String(groupId)] = {
-      submitted_at: row[0],
-      group_id: groupId,
-      principal_raw: row[2],
-      contact_phone: row[3],
-      attending_names: row[4],
-      not_attending_names: row[5],
-      total_confirmed: row[6],
-      needs_van: row[7],
-      needs_accommodation: row[8],
-      children_count: row[9],
-      notes: row[10]
-    };
+    recordsByGroup[record.group_id] = record;
   }
 
   return recordsByGroup;
 }
 
 function countNamesFromCell(value) {
-  if (!value) return 0;
-
-  var parts = value.toString().split(',');
-  var count = 0;
-
-  for (var i = 0; i < parts.length; i++) {
-    if (parts[i].toString().trim()) count++;
-  }
-
-  return count;
+  return parseNameList(value).length;
 }
 
 function getConfirmedGuestCount(record, group) {
@@ -4259,9 +4330,20 @@ function getConfirmedGuestCount(record, group) {
   if (!isNaN(total) && total >= 0) return total;
 
   var countedNames = countNamesFromCell(record.attending_names);
-  if (countedNames > 0) return countedNames;
+  var absentNames = countNamesFromCell(record.not_attending_names);
+  if (countedNames > 0 || absentNames > 0) return countedNames;
 
   return group.member_count || 0;
+}
+
+function getAbsentGuestCount(record, group, confirmedCount) {
+  var absentCount = countNamesFromCell(record.not_attending_names);
+  if (absentCount > 0) return absentCount;
+
+  if (confirmedCount === 0 && countNamesFromCell(record.attending_names) === 0) return 0;
+
+  var expectedCount = group.member_count || 0;
+  return Math.max(expectedCount - confirmedCount, 0);
 }
 
 function updateConfirmationSummary() {
@@ -4275,7 +4357,10 @@ function updateConfirmationSummary() {
   var pendingRows = [];
   var totalExpectedGuests = 0;
   var totalConfirmedGuests = 0;
+  var totalAbsentGuests = 0;
   var totalPendingGuests = 0;
+  var totalVanGroups = 0;
+  var totalAccommodationGroups = 0;
 
   for (var i = 0; i < guestGroups.length; i++) {
     var group = guestGroups[i];
@@ -4287,18 +4372,28 @@ function updateConfirmationSummary() {
 
     if (record) {
       var confirmedCount = getConfirmedGuestCount(record, group);
+      var absentCount = getAbsentGuestCount(record, group, confirmedCount);
+      var needsVan = isAffirmativeValue(record.needs_van);
+      var needsAccommodation = isAffirmativeValue(record.needs_accommodation);
+
       totalConfirmedGuests += confirmedCount;
+      totalAbsentGuests += absentCount;
+      if (needsVan) totalVanGroups += 1;
+      if (needsAccommodation) totalAccommodationGroups += 1;
 
       confirmedRows.push([
-        'Confirmado',
+        'Respondido',
         group.group_id,
         group.principal_raw,
         group.list,
         expectedCount,
         confirmedCount,
+        absentCount,
         record.submitted_at || '',
-        record.attending_names || '',
-        record.not_attending_names || ''
+        needsVan ? 'Sim' : 'Nao',
+        needsAccommodation ? 'Sim' : 'Nao',
+        parseNameList(record.attending_names).join(', '),
+        parseNameList(record.not_attending_names).join(', ')
       ]);
     } else {
       totalPendingGuests += expectedCount;
@@ -4316,18 +4411,20 @@ function updateConfirmationSummary() {
 
   var rows = [
     ['Resumo de Confirmacoes', '', '', 'Atualizado em', new Date()],
-    ['Total de grupos', guestGroups.length, '', 'Grupos confirmados', confirmedRows.length],
+    ['Total de grupos', guestGroups.length, '', 'Grupos respondidos', confirmedRows.length],
     ['Grupos pendentes', pendingRows.length, '', 'Total previsto de convidados', totalExpectedGuests],
     ['Total de pessoas confirmadas', totalConfirmedGuests, '', 'Total pendente sem resposta', totalPendingGuests],
+    ['Total de pessoas ausentes', totalAbsentGuests, '', 'Grupos com van', totalVanGroups],
+    ['Grupos com hospedagem', totalAccommodationGroups],
     [],
-    ['Grupos confirmados'],
-    ['Status', 'Group ID', 'Principal', 'Lista', 'Previstos', 'Confirmados', 'Confirmado em', 'Nomes confirmados', 'Nomes nao confirmados']
+    ['Grupos respondidos'],
+    ['Status', 'Group ID', 'Principal', 'Lista', 'Previstos', 'Confirmados', 'Ausentes', 'Respondido em', 'Van', 'Hospedagem', 'Nomes confirmados', 'Nomes ausentes']
   ];
 
   if (confirmedRows.length) {
     rows = rows.concat(confirmedRows);
   } else {
-    rows.push(['Sem confirmacoes ainda']);
+    rows.push(['Sem respostas ainda']);
   }
 
   rows.push([]);
@@ -4340,11 +4437,11 @@ function updateConfirmationSummary() {
     rows.push(['Todos os grupos ja responderam']);
   }
 
-  var maxColumns = 9;
+  var maxColumns = 12;
   var paddedRows = [];
   var confirmedSectionRows = confirmedRows.length ? confirmedRows.length : 1;
-  var pendingTitleRow = 9 + confirmedSectionRows;
-  var pendingHeaderRow = 10 + confirmedSectionRows;
+  var pendingTitleRow = 11 + confirmedSectionRows;
+  var pendingHeaderRow = 12 + confirmedSectionRows;
 
   for (var rowIndex = 0; rowIndex < rows.length; rowIndex++) {
     var row = rows[rowIndex].slice();
@@ -4356,7 +4453,7 @@ function updateConfirmationSummary() {
   summarySheet.clearFormats();
   summarySheet.getRange(1, 1, paddedRows.length, maxColumns).setValues(paddedRows);
 
-  var boldRows = [1, 2, 3, 4, 6, 7, pendingTitleRow, pendingHeaderRow];
+  var boldRows = [1, 2, 3, 4, 5, 6, 8, 9, pendingTitleRow, pendingHeaderRow];
   for (var b = 0; b < boldRows.length; b++) {
     var rowNumber = boldRows[b];
     if (rowNumber <= paddedRows.length) {
@@ -4447,13 +4544,8 @@ function handleSearch(query) {
 
 function isGroupConfirmed(groupId) {
   try {
-    var ss = SpreadsheetApp.openById(SHEET_ID);
-    var sheet = ss.getSheetByName(SHEET_NAME);
-    if (!sheet || sheet.getLastRow() <= 1) return false;
-    var data = sheet.getRange(2, 3, sheet.getLastRow() - 1, 1).getValues();
-    for (var i = 0; i < data.length; i++) {
-      if (String(data[i][0]) === String(groupId)) return true;
-    }
+    var recordsByGroup = getConfirmationRecords();
+    return !!recordsByGroup[String(groupId)];
   } catch (e) {}
   return false;
 }
@@ -4465,6 +4557,8 @@ function handleConfirm(payload) {
   }
   var ss = SpreadsheetApp.openById(SHEET_ID);
   var sheet = ss.getSheetByName(SHEET_NAME);
+  var guestGroupMap = getGuestGroupMap();
+  var groupInfo = guestGroupMap[String(payload.groupId)] || null;
   if (!sheet) { setup(); sheet = ss.getSheetByName(SHEET_NAME); }
   var now = new Date();
   var confirmationId = payload.groupId + '_' + now.getTime();
@@ -4472,22 +4566,19 @@ function handleConfirm(payload) {
   if (payload.childrenCount && parseInt(payload.childrenCount) > 0) notesParts.push('Criancas: ' + payload.childrenCount);
   if (payload.message) notesParts.push(payload.message);
   
-  var attendingNames = (payload.attendingMembers && Array.isArray(payload.attendingMembers)) ? payload.attendingMembers.join(', ') : '';
-  var notAttendingNames = (payload.notAttendingMembers && Array.isArray(payload.notAttendingMembers)) ? payload.notAttendingMembers.join(', ') : '';
-  var totalGuests = payload.totalGuests ? parseInt(payload.totalGuests, 10) : 0;
-
   sheet.appendRow([
+    confirmationId,
     now.toISOString(),
     payload.groupId,
+    groupInfo ? groupInfo.list : (payload.list || ''),
     payload.principalName,
-    payload.whatsapp || 'Nao informado',
-    attendingNames,
-    notAttendingNames,
-    totalGuests,
+    JSON.stringify(payload.attendingMembers || []),
+    JSON.stringify(payload.notAttendingMembers || []),
     payload.needsVan ? 'Sim' : 'Nao',
     payload.needsAccommodation ? 'Sim' : 'Nao',
-    payload.childrenCount || 0,
-    notesParts.join(' | ')
+    payload.whatsapp || 'Nao informado',
+    notesParts.join(' | '),
+    payload.inviteCode || ''
   ]);
 
   updateConfirmationSummary();
