@@ -5,6 +5,7 @@
 
 const SHEET_ID = '19UZUtPejkKOD0sZBF7VI6FNt_yV5h0JbFjc4BPx3LPA';
 const SHEET_NAME = 'Respostas';
+const SUMMARY_SHEET_NAME = 'Resumo Confirmacoes';
 
 const GUESTS_DB = [
   {
@@ -4184,6 +4185,191 @@ function setup() {
     sheet.getRange("A1:L1").setFontWeight("bold");
     sheet.setFrozenRows(1);
   }
+
+  if (!ss.getSheetByName(SUMMARY_SHEET_NAME)) {
+    ss.insertSheet(SUMMARY_SHEET_NAME);
+  }
+
+  updateConfirmationSummary();
+}
+
+function getUniqueGuestGroups() {
+  var seen = {};
+  var groups = [];
+
+  for (var i = 0; i < GUESTS_DB.length; i++) {
+    var group = GUESTS_DB[i];
+    var key = String(group.group_id);
+
+    if (seen[key]) continue;
+    seen[key] = true;
+    groups.push(group);
+  }
+
+  return groups;
+}
+
+function getConfirmationRecords() {
+  var ss = SpreadsheetApp.openById(SHEET_ID);
+  var sheet = ss.getSheetByName(SHEET_NAME);
+  var recordsByGroup = {};
+
+  if (!sheet || sheet.getLastRow() <= 1) return recordsByGroup;
+
+  var values = sheet.getRange(2, 1, sheet.getLastRow() - 1, Math.max(sheet.getLastColumn(), 11)).getValues();
+
+  for (var i = 0; i < values.length; i++) {
+    var row = values[i];
+    var groupId = row[1];
+    if (groupId === '' || groupId === null || typeof groupId === 'undefined') continue;
+
+    recordsByGroup[String(groupId)] = {
+      submitted_at: row[0],
+      group_id: groupId,
+      principal_raw: row[2],
+      contact_phone: row[3],
+      attending_names: row[4],
+      not_attending_names: row[5],
+      total_confirmed: row[6],
+      needs_van: row[7],
+      needs_accommodation: row[8],
+      children_count: row[9],
+      notes: row[10]
+    };
+  }
+
+  return recordsByGroup;
+}
+
+function countNamesFromCell(value) {
+  if (!value) return 0;
+
+  var parts = value.toString().split(',');
+  var count = 0;
+
+  for (var i = 0; i < parts.length; i++) {
+    if (parts[i].toString().trim()) count++;
+  }
+
+  return count;
+}
+
+function getConfirmedGuestCount(record, group) {
+  var total = parseInt(record.total_confirmed, 10);
+  if (!isNaN(total) && total >= 0) return total;
+
+  var countedNames = countNamesFromCell(record.attending_names);
+  if (countedNames > 0) return countedNames;
+
+  return group.member_count || 0;
+}
+
+function updateConfirmationSummary() {
+  var ss = SpreadsheetApp.openById(SHEET_ID);
+  var summarySheet = ss.getSheetByName(SUMMARY_SHEET_NAME);
+  if (!summarySheet) summarySheet = ss.insertSheet(SUMMARY_SHEET_NAME);
+
+  var guestGroups = getUniqueGuestGroups();
+  var confirmationRecords = getConfirmationRecords();
+  var confirmedRows = [];
+  var pendingRows = [];
+  var totalExpectedGuests = 0;
+  var totalConfirmedGuests = 0;
+  var totalPendingGuests = 0;
+
+  for (var i = 0; i < guestGroups.length; i++) {
+    var group = guestGroups[i];
+    var key = String(group.group_id);
+    var expectedCount = group.member_count || 0;
+    var record = confirmationRecords[key];
+
+    totalExpectedGuests += expectedCount;
+
+    if (record) {
+      var confirmedCount = getConfirmedGuestCount(record, group);
+      totalConfirmedGuests += confirmedCount;
+
+      confirmedRows.push([
+        'Confirmado',
+        group.group_id,
+        group.principal_raw,
+        group.list,
+        expectedCount,
+        confirmedCount,
+        record.submitted_at || '',
+        record.attending_names || '',
+        record.not_attending_names || ''
+      ]);
+    } else {
+      totalPendingGuests += expectedCount;
+
+      pendingRows.push([
+        'Pendente',
+        group.group_id,
+        group.principal_raw,
+        group.list,
+        expectedCount,
+        group.group_raw || ''
+      ]);
+    }
+  }
+
+  var rows = [
+    ['Resumo de Confirmacoes', '', '', 'Atualizado em', new Date()],
+    ['Total de grupos', guestGroups.length, '', 'Grupos confirmados', confirmedRows.length],
+    ['Grupos pendentes', pendingRows.length, '', 'Total previsto de convidados', totalExpectedGuests],
+    ['Total de pessoas confirmadas', totalConfirmedGuests, '', 'Total pendente sem resposta', totalPendingGuests],
+    [],
+    ['Grupos confirmados'],
+    ['Status', 'Group ID', 'Principal', 'Lista', 'Previstos', 'Confirmados', 'Confirmado em', 'Nomes confirmados', 'Nomes nao confirmados']
+  ];
+
+  if (confirmedRows.length) {
+    rows = rows.concat(confirmedRows);
+  } else {
+    rows.push(['Sem confirmacoes ainda']);
+  }
+
+  rows.push([]);
+  rows.push(['Grupos pendentes']);
+  rows.push(['Status', 'Group ID', 'Principal', 'Lista', 'Previstos', 'Grupo completo']);
+
+  if (pendingRows.length) {
+    rows = rows.concat(pendingRows);
+  } else {
+    rows.push(['Todos os grupos ja responderam']);
+  }
+
+  var maxColumns = 9;
+  var paddedRows = [];
+  var confirmedSectionRows = confirmedRows.length ? confirmedRows.length : 1;
+  var pendingTitleRow = 9 + confirmedSectionRows;
+  var pendingHeaderRow = 10 + confirmedSectionRows;
+
+  for (var rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+    var row = rows[rowIndex].slice();
+    while (row.length < maxColumns) row.push('');
+    paddedRows.push(row);
+  }
+
+  summarySheet.clearContents();
+  summarySheet.clearFormats();
+  summarySheet.getRange(1, 1, paddedRows.length, maxColumns).setValues(paddedRows);
+
+  var boldRows = [1, 2, 3, 4, 6, 7, pendingTitleRow, pendingHeaderRow];
+  for (var b = 0; b < boldRows.length; b++) {
+    var rowNumber = boldRows[b];
+    if (rowNumber <= paddedRows.length) {
+      summarySheet.getRange(rowNumber, 1, 1, maxColumns).setFontWeight('bold');
+    }
+  }
+
+  summarySheet.setFrozenRows(1);
+  summarySheet.autoResizeColumns(1, maxColumns);
+}
+
+function refreshConfirmationSummary() {
+  updateConfirmationSummary();
 }
 
 function normalizeName(name) {
@@ -4303,6 +4489,9 @@ function handleConfirm(payload) {
     payload.childrenCount || 0,
     notesParts.join(' | ')
   ]);
+
+  updateConfirmationSummary();
+
   return respondJSON({ success: true, message: 'Presenca confirmada com sucesso!' });
 }
 
