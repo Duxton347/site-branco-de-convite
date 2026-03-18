@@ -1930,22 +1930,7 @@ const GUESTS_DB = [
       "gabi"
     ]
   },
-  {
-    "group_id": 100,
-    "list": "Jesse",
-    "principal_raw": "Irmao da gabi ",
-    "principal_trim": "Irmao da gabi",
-    "principal_key": "irmao da gabi",
-    "members_raw": [],
-    "group_raw": "Irmao da gabi ",
-    "group_hash": "5425b9054805",
-    "member_count": 1,
-    "principal_base_raw": "Irmao da gabi",
-    "principal_base_key": "irmao da gabi",
-    "principal_search_keys": [
-      "irmao da gabi"
-    ]
-  },
+  
   {
     "group_id": 101,
     "list": "Jesse",
@@ -1982,71 +1967,19 @@ const GUESTS_DB = [
       "luanda"
     ]
   },
-  {
+    {
     "group_id": 103,
     "list": "Julia",
-    "principal_raw": "// ==========================================
-// SCRIPT DE CONFIRMACAO DE PRESENCA (RSVP)
-// Substitua TODO o codigo do Google Apps Script por este
-// ==========================================
-
-const SHEET_ID = '19UZUtPejkKOD0sZBF7VI6FNt_yV5h0JbFjc4BPx3LPA';
-const SHEET_NAME = 'Respostas';
-
-const GUESTS_DB = [
-  {
-    "group_id": 9991,
-    "list": "Teste",
-    "principal_raw": "Teste Individual",
-    "principal_trim": "Teste Individual",
-    "principal_key": "teste individual",
-    "members_raw": [],
-    "group_raw": "Teste Individual",
-    "group_hash": "test1",
-    "member_count": 1,
-    "principal_base_raw": "Teste",
-    "principal_base_key": "teste",
-    "principal_search_keys": [
-      "teste individual"
-    ]
-  },
-  {
-    "group_id": 9992,
-    "list": "Teste",
-    "principal_raw": "Teste Casal",
-    "principal_trim": "Teste Casal",
-    "principal_key": "teste casal",
-    "members_raw": [
-      "Acompanhante Teste"
-    ],
-    "group_raw": "Teste Casal\nAcompanhante Teste",
-    "group_hash": "test2",
-    "member_count": 2,
-    "principal_base_raw": "Teste",
-    "principal_base_key": "teste",
-    "principal_search_keys": [
-      "teste casal"
-    ]
-  },
-  {
-    "group_id": 9993,
-    "list": "Teste",
-    "principal_raw": "Teste Familia",
-    "principal_trim": "Teste Familia",
-    "principal_key": "teste familia",
-    "members_raw": [
-      "Membro Teste 1",
-      "Membro Teste 2",
-      "Membro Teste 3"
-    ],
-    "group_raw": "Teste Familia\nMembro Teste 1\nMembro Teste 2\nMembro Teste 3",
-    "group_hash": "test3",
+    "principal_raw": "Diran",
+    "principal_trim": "Diran",
+    "principal_key": "diran",
+    "members_raw": ["Esposa", "Filho", "Filha"],
+    "group_raw": "Diran\nEsposa\nFilho\nFilha",
+    "group_hash": "d17a2b3c4d5e",
     "member_count": 4,
-    "principal_base_raw": "Teste",
-    "principal_base_key": "teste",
-    "principal_search_keys": [
-      "teste familia"
-    ]
+    "principal_base_raw": "Diran",
+    "principal_base_key": "diran",
+    "principal_search_keys": ["diran"]
   },
   {
     "group_id": 1,
@@ -3917,22 +3850,7 @@ const GUESTS_DB = [
       "gabi"
     ]
   },
-  {
-    "group_id": 100,
-    "list": "Jesse",
-    "principal_raw": "Irmao da gabi ",
-    "principal_trim": "Irmao da gabi",
-    "principal_key": "irmao da gabi",
-    "members_raw": [],
-    "group_raw": "Irmao da gabi ",
-    "group_hash": "5425b9054805",
-    "member_count": 1,
-    "principal_base_raw": "Irmao da gabi",
-    "principal_base_key": "irmao da gabi",
-    "principal_search_keys": [
-      "irmao da gabi"
-    ]
-  },
+  
   {
     "group_id": 101,
     "list": "Jesse",
@@ -3969,25 +3887,19 @@ const GUESTS_DB = [
       "luanda"
     ]
   },
-  {
+    {
     "group_id": 103,
     "list": "Julia",
     "principal_raw": "Diran",
     "principal_trim": "Diran",
     "principal_key": "diran",
-    "members_raw": [
-      "Esposa",
-      "Filho",
-      "Filha",
-    ],
+    "members_raw": ["Esposa", "Filho", "Filha"],
     "group_raw": "Diran\nEsposa\nFilho\nFilha",
     "group_hash": "d17a2b3c4d5e",
     "member_count": 4,
     "principal_base_raw": "Diran",
     "principal_base_key": "diran",
-    "principal_search_keys": [
-      "diran"
-    ]
+    "principal_search_keys": ["diran"]
   },
   {
     "group_id": 104,
@@ -4215,474 +4127,47 @@ const GUESTS_DB = [
       "gabriely kimberly"
     ]
   },
-  ,
   {
     "group_id": 117,
     "list": "Julia",
     "principal_raw": "Jonas",
     "principal_trim": "Jonas",
-    "principal_key": "Jonas",
-    "members_raw": ["Jonas"],
-    "group_raw": "Jonas",
-    "group_hash": "gk7a2b3c4d5e",
-    "member_count": 1,
-    "principal_base_raw": "Jonas",
-    "principal_base_key": "Jonas",
-    "principal_search_keys": ["Jonas"]
-  },
-  {
-    "group_id": 118,
-    "list": "Julia",
-    "principal_raw": "Maisa",
-    "principal_trim": "Maisa",
-    "principal_key": "Maisa",
-    "members_raw": ["Maisa","Leandro", "Lara", "Rebeca"],
-    "group_raw": "Maisa\nLeandro\nLara\nRebeca",
-    "group_hash": "gk7a2b3c4d5e",
-    "member_count": 4,
-    "principal_base_raw": "Maisa",
-    "principal_base_key": "Maisa",
-    "principal_search_keys": ["Maisa"]
-  },
-   {
-    "group_id": 119,
-    "list": "Julia",
-    "principal_raw": "Leonardo",
-    "principal_trim": "Leonardo",
-    "principal_key": "Leonardo",
-    "members_raw": ["Leonardo", "Esposa","filho"],
-    "group_raw": "Leonardo",
-    "group_hash": "gk7a2b3c4d5e",
-    "member_count": 3,
-    "principal_base_raw": "Leonardo",
-    "principal_base_key": "Leonardo",
-    "principal_search_keys": ["Leonardo"]
-  }
-];
-
-function setup() {
-  var ss = SpreadsheetApp.openById(SHEET_ID);
-  var sheet = ss.getSheetByName(SHEET_NAME);
-  if (!sheet) {
-    sheet = ss.insertSheet(SHEET_NAME);
-    sheet.appendRow([
-      'confirmation_id','submitted_at_iso','group_id','list','principal_raw',
-      'attending_raw_json','not_attending_raw_json','needs_van','needs_dormitorio',
-      'contact_phone','notes','invite_code'
-    ]);
-    sheet.getRange("A1:L1").setFontWeight("bold");
-    sheet.setFrozenRows(1);
-  }
-}
-
-function normalizeName(name) {
-  if (!name) return "";
-  return name.toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
-}
-
-function doPost(e) {
-  try {
-    var postData = JSON.parse(e.postData.contents);
-    var action = postData.action;
-    if (action === 'search') {
-      return handleSearch(postData.query);
-    } else if (action === 'confirm') {
-      return handleConfirm(postData.payload);
-    } else {
-      return respondJSON({ error: 'Acao invalida' });
-    }
-  } catch (error) {
-    return respondJSON({ error: error.toString() });
-  }
-}
-
-function doOptions(e) {
-  return respondJSON({ status: 'ok' });
-}
-
-function handleSearch(query) {
-  if (!query) return respondJSON({ error: 'Nenhum nome buscado.' });
-  var normalizedQuery = normalizeName(query);
-  var group = null;
-  for (var i = 0; i < GUESTS_DB.length; i++) {
-    var g = GUESTS_DB[i];
-    for (var j = 0; j < g.principal_search_keys.length; j++) {
-      if (normalizeName(g.principal_search_keys[j]) === normalizedQuery) {
-        group = g;
-        break;
-      }
-    }
-    if (group) break;
-  }
-  if (!group) {
-    var partialMatch = [];
-    for (var i = 0; i < GUESTS_DB.length; i++) {
-      var g = GUESTS_DB[i];
-      for (var j = 0; j < g.principal_search_keys.length; j++) {
-        if (normalizeName(g.principal_search_keys[j]).indexOf(normalizedQuery) !== -1) {
-          partialMatch.push(g);
-          break;
-        }
-      }
-    }
-    if (partialMatch.length === 1) {
-      group = partialMatch[0];
-    } else if (partialMatch.length > 1) {
-      return respondJSON({ error: 'Multiplos convidados encontrados. Digite seu nome e sobrenome.' });
-    } else {
-      return respondJSON({ error: 'Convidado nao encontrado na lista.' });
-    }
-  }
-  if (isGroupConfirmed(group.group_id)) {
-    return respondJSON({ error: 'already_confirmed', message: 'Sua presenca ja foi confirmada! Obrigado!' });
-  }
-  return respondJSON({
-    group: {
-      group_id: group.group_id,
-      list: group.list,
-      principal_raw: group.principal_raw,
-      members_raw: group.members_raw,
-      member_count: group.member_count,
-      group_hash: group.group_hash
-    }
-  });
-}
-
-function isGroupConfirmed(groupId) {
-  try {
-    var ss = SpreadsheetApp.openById(SHEET_ID);
-    var sheet = ss.getSheetByName(SHEET_NAME);
-    if (!sheet || sheet.getLastRow() <= 1) return false;
-    var data = sheet.getRange(2, 3, sheet.getLastRow() - 1, 1).getValues();
-    for (var i = 0; i < data.length; i++) {
-      if (String(data[i][0]) === String(groupId)) return true;
-    }
-  } catch (e) {}
-  return false;
-}
-
-function handleConfirm(payload) {
-  if (!payload || !payload.groupId) return respondJSON({ error: 'Payload incompleto.' });
-  if (isGroupConfirmed(payload.groupId)) {
-    return respondJSON({ error: 'already_confirmed', message: 'Esta confirmacao ja foi realizada anteriormente.' });
-  }
-  var ss = SpreadsheetApp.openById(SHEET_ID);
-  var sheet = ss.getSheetByName(SHEET_NAME);
-  if (!sheet) { setup(); sheet = ss.getSheetByName(SHEET_NAME); }
-  var now = new Date();
-  var confirmationId = payload.groupId + '_' + now.getTime();
-  var notesParts = [];
-  if (payload.childrenCount && parseInt(payload.childrenCount) > 0) notesParts.push('Criancas: ' + payload.childrenCount);
-  if (payload.message) notesParts.push(payload.message);
-  
-  var attendingNames = (payload.attendingMembers && Array.isArray(payload.attendingMembers)) ? payload.attendingMembers.join(', ') : '';
-  var notAttendingNames = (payload.notAttendingMembers && Array.isArray(payload.notAttendingMembers)) ? payload.notAttendingMembers.join(', ') : '';
-  var totalGuests = payload.totalGuests ? parseInt(payload.totalGuests, 10) : 0;
-
-  sheet.appendRow([
-    now.toISOString(),
-    payload.groupId,
-    payload.principalName,
-    payload.whatsapp || 'Nao informado',
-    attendingNames,
-    notAttendingNames,
-    totalGuests,
-    payload.needsVan ? 'Sim' : 'Nao',
-    payload.needsAccommodation ? 'Sim' : 'Nao',
-    payload.childrenCount || 0,
-    notesParts.join(' | ')
-  ]);
-  return respondJSON({ success: true, message: 'Presenca confirmada com sucesso!' });
-}
-
-function respondJSON(data) {
-  return ContentService.createTextOutput(JSON.stringify(data)).setMimeType(ContentService.MimeType.JSON);
-}",
-    "principal_trim": "Diran",
-    "principal_key": "diran",
-    "members_raw": [
-      "Maisa",
-      "Leandro",
-      "Rebeca",
-      "Lara"
-    ],
-    "group_raw": "Diran\nEsposa\nFilho\nFilha",
-    "group_hash": "d17a2b3c4d5e",
-    "member_count": 4,
-    "principal_base_raw": "Diran",
-    "principal_base_key": "diran",
-    "principal_search_keys": [
-      "diran"
-    ]
-  },
-  {
-    "group_id": 104,
-    "list": "Julia",
-    "principal_raw": "Mario",
-    "principal_trim": "Mario",
-    "principal_key": "mario",
-    "members_raw": [
-      "Esposa de Mario"
-    ],
-    "group_raw": "Mario\nEsposa de Mario",
-    "group_hash": "m07a2b3c4d5e",
-    "member_count": 2,
-    "principal_base_raw": "Mario",
-    "principal_base_key": "mario",
-    "principal_search_keys": [
-      "mario"
-    ]
-  },
-  {
-    "group_id": 105,
-    "list": "Julia",
-    "principal_raw": "Marcelo",
-    "principal_trim": "Marcelo",
-    "principal_key": "marcelo",
+    "principal_key": "jonas",
     "members_raw": [],
-    "group_raw": "Marcelo",
-    "group_hash": "mc7a2b3c4d5e",
-    "member_count": 1,
-    "principal_base_raw": "Marcelo",
-    "principal_base_key": "marcelo",
-    "principal_search_keys": [
-      "marcelo"
-    ]
-  },
-  {
-    "group_id": 106,
-    "list": "Julia",
-    "principal_raw": "Michele",
-    "principal_trim": "Michele",
-    "principal_key": "michele",
-    "members_raw": [],
-    "group_raw": "Michele",
-    "group_hash": "mi7a2b3c4d5e",
-    "member_count": 1,
-    "principal_base_raw": "Michele",
-    "principal_base_key": "michele",
-    "principal_search_keys": [
-      "michele"
-    ]
-  },
-  {
-    "group_id": 107,
-    "list": "Julia",
-    "principal_raw": "Luiz Carlos",
-    "principal_trim": "Luiz Carlos",
-    "principal_key": "luiz carlos",
-    "members_raw": [
-      "Bianca (tia da noiva)"
-    ],
-    "group_raw": "Luiz Carlos\nBianca (tia da noiva)",
-    "group_hash": "lc7a2b3c4d5e",
-    "member_count": 2,
-    "principal_base_raw": "Luiz Carlos",
-    "principal_base_key": "luiz carlos",
-    "principal_search_keys": [
-      "luiz carlos"
-    ]
-  },
-  {
-    "group_id": 108,
-    "list": "Julia",
-    "principal_raw": "Vanessa Xavier",
-    "principal_trim": "Vanessa Xavier",
-    "principal_key": "vanessa xavier",
-    "members_raw": [],
-    "group_raw": "Vanessa Xavier",
-    "group_hash": "vx7a2b3c4d5e",
-    "member_count": 1,
-    "principal_base_raw": "Vanessa Xavier",
-    "principal_base_key": "vanessa xavier",
-    "principal_search_keys": [
-      "vanessa xavier"
-    ]
-  },
-  {
-    "group_id": 109,
-    "list": "Julia",
-    "principal_raw": "Binho",
-    "principal_trim": "Binho",
-    "principal_key": "binho",
-    "members_raw": [],
-    "group_raw": "Binho",
-    "group_hash": "bi7a2b3c4d5e",
-    "member_count": 1,
-    "principal_base_raw": "Binho",
-    "principal_base_key": "binho",
-    "principal_search_keys": [
-      "binho"
-    ]
-  },
-  {
-    "group_id": 110,
-    "list": "Julia",
-    "principal_raw": "Regiane",
-    "principal_trim": "Regiane",
-    "principal_key": "regiane",
-    "members_raw": [
-      "Noivo"
-    ],
-    "group_raw": "Regiane\nNoivo",
-    "group_hash": "re7a2b3c4d5e",
-    "member_count": 2,
-    "principal_base_raw": "Regiane",
-    "principal_base_key": "regiane",
-    "principal_search_keys": [
-      "regiane"
-    ]
-  },
-  {
-    "group_id": 111,
-    "list": "Julia",
-    "principal_raw": "João (amigo da noiva)",
-    "principal_trim": "João (amigo da noiva)",
-    "principal_key": "joao (amigo da noiva)",
-    "members_raw": [],
-    "group_raw": "João (amigo da noiva)",
-    "group_hash": "jo7a2b3c4d5e",
-    "member_count": 1,
-    "principal_base_raw": "João",
-    "principal_base_key": "joao",
-    "principal_search_keys": [
-      "joao (amigo da noiva)",
-      "joao"
-    ]
-  },
-  {
-    "group_id": 112,
-    "list": "Julia",
-    "principal_raw": "Linnykher",
-    "principal_trim": "Linnykher",
-    "principal_key": "linnykher",
-    "members_raw": [],
-    "group_raw": "Linnykher",
-    "group_hash": "li7a2b3c4d5e",
-    "member_count": 1,
-    "principal_base_raw": "Linnykher",
-    "principal_base_key": "linnykher",
-    "principal_search_keys": [
-      "linnykher"
-    ]
-  },
-  {
-    "group_id": 113,
-    "list": "Julia",
-    "principal_raw": "Miguel",
-    "principal_trim": "Miguel",
-    "principal_key": "miguel",
-    "members_raw": [],
-    "group_raw": "Miguel",
-    "group_hash": "mi7a2b3c4d5f",
-    "member_count": 1,
-    "principal_base_raw": "Miguel",
-    "principal_base_key": "miguel",
-    "principal_search_keys": [
-      "miguel"
-    ]
-  },
-  {
-    "group_id": 114,
-    "list": "Julia",
-    "principal_raw": "Gabriela Ramiro",
-    "principal_trim": "Gabriela Ramiro",
-    "principal_key": "gabriela ramiro",
-    "members_raw": [],
-    "group_raw": "Gabriela Ramiro",
-    "group_hash": "gr7a2b3c4d5e",
-    "member_count": 1,
-    "principal_base_raw": "Gabriela Ramiro",
-    "principal_base_key": "gabriela ramiro",
-    "principal_search_keys": [
-      "gabriela ramiro"
-    ]
-  },
-  {
-    "group_id": 115,
-    "list": "Julia",
-    "principal_raw": "Leide",
-    "principal_trim": "Leide",
-    "principal_key": "leide",
-    "members_raw": [
-      "Gonçalo",
-      "Rafael (filho de Leide)",
-      "Esposa de Rafael",
-      "Daniel (filho de Leide)",
-      "Ezequiel (filho de Leide)",
-      "Namorada de Ezequiel"
-    ],
-    "group_raw": "Leide\nGonçalo\nRafael (filho de Leide)\nEsposa de Rafael\nDaniel (filho de Leide)\nEzequiel (filho de Leide)\nNamorada de Ezequiel",
-    "group_hash": "le7a2b3c4d5e",
-    "member_count": 7,
-    "principal_base_raw": "Leide",
-    "principal_base_key": "leide",
-    "principal_search_keys": [
-      "leide"
-    ]
-  },
-  {
-    "group_id": 116,
-    "list": "Julia",
-    "principal_raw": "Gabriely Kimberly",
-    "principal_trim": "Gabriely Kimberly",
-    "principal_key": "gabriely kimberly",
-    "members_raw": [
-      "Ronaldo",
-      "Flavia",
-      "Davi"
-    ],
-    "group_raw": "Gabriely Kimberly\nRonaldo\nFlavia\nDavi",
-    "group_hash": "gk7a2b3c4d5e",
-    "member_count": 4,
-    "principal_base_raw": "Gabriely Kimberly",
-    "principal_base_key": "gabriely kimberly",
-    "principal_search_keys": [
-      "gabriely kimberly"
-    ]
-  },
-  ,
-  {
-    "group_id": 117,
-    "list": "Julia",
-    "principal_raw": "Jonas",
-    "principal_trim": "Jonas",
-    "principal_key": "Jonas",
-    "members_raw": ["Jonas"],
     "group_raw": "Jonas",
     "group_hash": "gk7a2b3c4d5e4",
     "member_count": 1,
     "principal_base_raw": "Jonas",
-    "principal_base_key": "Jonas",
-    "principal_search_keys": ["Jonas"]
+    "principal_base_key": "jonas",
+    "principal_search_keys": ["jonas"]
   },
   {
     "group_id": 118,
     "list": "Julia",
     "principal_raw": "Maisa",
     "principal_trim": "Maisa",
-    "principal_key": "Maisa",
-    "members_raw": ["Maisa","Leandro", "Lara", "Rebeca"],
-    "group_raw": "Maisa\nLeandro\nLara\nRebeca",
+    "principal_key": "maisa",
+    "members_raw": ["Leandro", "Rebeca", "Lara"],
+    "group_raw": "Maisa\nLeandro\nRebeca\nLara",
     "group_hash": "gk7a2b3c4d5e2",
     "member_count": 4,
     "principal_base_raw": "Maisa",
-    "principal_base_key": "Maisa",
-    "principal_search_keys": ["Maisa"]
+    "principal_base_key": "maisa",
+    "principal_search_keys": ["maisa"]
   },
-   {
+  {
     "group_id": 119,
     "list": "Julia",
     "principal_raw": "Leonardo",
     "principal_trim": "Leonardo",
-    "principal_key": "Leonardo",
-    "members_raw": ["Leonardo", "Esposa","filho"],
-    "group_raw": "Leonardo",
+    "principal_key": "leonardo",
+    "members_raw": ["Esposa", "Filho"],
+    "group_raw": "Leonardo\nEsposa\nFilho",
     "group_hash": "gk7a2b3c4d5e3",
     "member_count": 3,
     "principal_base_raw": "Leonardo",
-    "principal_base_key": "Leonardo",
-    "principal_search_keys": ["Leonardo"]
+    "principal_base_key": "leonardo",
+    "principal_search_keys": ["leonardo"]
   }
 ];
 
