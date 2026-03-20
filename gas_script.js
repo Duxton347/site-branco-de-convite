@@ -1311,10 +1311,10 @@ const GUESTS_DB = [
     "principal_key": "raquel",
     "members_raw": [
       "José Lemos",
-      "Filho 1 (F) ",
-      "Filho 2 (F)"
+      "Livia ",
+      "Lara"
     ],
-    "group_raw": "Raquel\nJosé Lemos\nFilho 1 (F) \nFilho 2 (F)",
+    "group_raw": "Raquel\nJosé Lemos\nLivia \nLara",
     "group_hash": "5aa5d3312303",
     "member_count": 4,
     "principal_base_raw": "Raquel",
