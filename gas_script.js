@@ -1314,7 +1314,7 @@ const GUESTS_DB = [
       "Alice",
       "Lara"
     ],
-    "group_raw": "Raquel\nJosé Lemos\nAlice \nLara",
+    "group_raw": "Raquel\nJosé Lemos\nAlice\nLara",
     "group_hash": "5aa5d3312303",
     "member_count": 4,
     "principal_base_raw": "Raquel",
